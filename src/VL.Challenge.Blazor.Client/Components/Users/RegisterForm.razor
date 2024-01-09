@@ -1,0 +1,36 @@
+﻿@inherits VLComponentBase;
+
+@using VL.Challenge.Blazor.Client.Services;
+@using VL.Challenge.Common.Users;
+@inject IUserApi _userApi;
+
+<EditForm Model="_model" OnValidSubmit="Submit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="d-flex">
+
+        <div class="p-2 flex-fill">
+            <div class="input-group mb-3">
+                <InputText @bind-Value="_model.Username" class="form-control" placeholder="Enter username to register.." />
+            </div>
+        </div>
+
+        <div class="p-2">
+            <button class="btn btn-primary" type="submit" style="width:200px">Register</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private UserCreateModel _model = new();
+
+    private async Task Submit()
+    {
+        if (await _userApi.Register(_model))
+        {
+            await _userApi.Login(_model.Username);
+            await NotifyStateHasChanged();
+        }
+    }
+}

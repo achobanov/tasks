@@ -1,0 +1,69 @@
+﻿@page "/tasks/update/{id}"
+
+@using VL.Challenge.Blazor.Client.Services;
+@using VL.Challenge.Common.Tasks;
+@inject ITaskApi _taskApi;
+@inject NavigationManager _navigationManager;
+@inject IToaster _toaster;
+
+<h3>Update Task</h3>
+
+@if (_model != null)
+{
+    <EditForm Model="_model" OnValidSubmit="Submit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="input-group mb-3">
+            <InputText @bind-Value="_model.Subject" class="form-control" placeholder="Subject" />
+        </div>
+
+        <div class="input-group mb-3">
+            <InputText @bind-Value="_model.Description" class="form-control" placeholder="Description" />
+        </div>
+
+        <div class="input-group mb-3">
+            <InputDate @bind-Value="_model.StartTime" class="form-control" placeholder="Start time" />
+        </div>
+
+        <div class="input-group mb-3">
+            <InputDate @bind-Value="_model.EndTime" class="form-control" placeholder="End time" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Update</button>
+
+    </EditForm>
+}
+
+@code {
+    private TaskUpdateModel _model = default!;
+
+    [Parameter]
+    public string Id { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!int.TryParse(Id,  out var id))
+        {
+            _toaster.Add("Oops", "Login to create Tasks", UiColor.Warning);
+            _navigationManager.NavigateTo("/");
+            return;
+        }
+        var task = await _taskApi.Read(id);
+        if (task == null)
+        {
+            _toaster.Add("Oops", "Task does not exist", UiColor.Danger);
+            _navigationManager.NavigateTo("/");
+            return;
+        }
+        _model = new TaskUpdateModel(task);
+    }
+
+    public async Task Submit()
+    {
+        if (await _taskApi.Update(_model))
+        {
+            _navigationManager.NavigateTo("/tasks");
+        }
+    }
+}

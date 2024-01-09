@@ -1,0 +1,80 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{57AF1E04-9A26-45BB-99B3-B43CAE06F150}"
+	ProjectSection(SolutionItems) = preProject
+		..\compose.yaml = ..\compose.yaml
+		..\download-maui-sdk.bat = ..\download-maui-sdk.bat
+		..\start.bat = ..\start.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{C45071DD-AD37-4DB0-9CD0-DD22A7BC5F09}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\SQL\Dockerfile = ..\build\SQL\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{C5F1ED95-99C3-4E98-A235-C883347549AE}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\API\Dockerfile = ..\build\API\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{BE896F07-DF0E-40D6-B1B5-0A856249C0E7}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\Redis\Dockerfile = ..\build\Redis\Dockerfile
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VL.Challenge.Domain", "VL.Challenge.Domain\VL.Challenge.Domain.csproj", "{A6079BC1-5A8D-4835-BF08-83DFA5E35EB5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VL.Challenge.Storage", "VL.Challenge.Storage\VL.Challenge.Storage.csproj", "{B9DFF47D-E39E-4591-9A4E-40FF27B75869}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VL.Challenge.Common", "VL.Challenge.Common\VL.Challenge.Common.csproj", "{39564B75-1020-4BAC-AA24-450D2F5F06C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{73F51D04-A02D-4DCA-AD8A-10849064C48E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VL.Challenge.API", "VL.Challenge.API\VL.Challenge.API.csproj", "{A6965C3B-67C6-4BA1-9444-5059C6B4237B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VL.Challenge.Blazor.Client", "VL.Challenge.Blazor.Client\VL.Challenge.Blazor.Client.csproj", "{83328850-2983-4199-8896-AC9B4ECE6792}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6079BC1-5A8D-4835-BF08-83DFA5E35EB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6079BC1-5A8D-4835-BF08-83DFA5E35EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6079BC1-5A8D-4835-BF08-83DFA5E35EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6079BC1-5A8D-4835-BF08-83DFA5E35EB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9DFF47D-E39E-4591-9A4E-40FF27B75869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9DFF47D-E39E-4591-9A4E-40FF27B75869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9DFF47D-E39E-4591-9A4E-40FF27B75869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9DFF47D-E39E-4591-9A4E-40FF27B75869}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39564B75-1020-4BAC-AA24-450D2F5F06C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39564B75-1020-4BAC-AA24-450D2F5F06C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39564B75-1020-4BAC-AA24-450D2F5F06C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39564B75-1020-4BAC-AA24-450D2F5F06C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6965C3B-67C6-4BA1-9444-5059C6B4237B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6965C3B-67C6-4BA1-9444-5059C6B4237B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6965C3B-67C6-4BA1-9444-5059C6B4237B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6965C3B-67C6-4BA1-9444-5059C6B4237B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83328850-2983-4199-8896-AC9B4ECE6792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83328850-2983-4199-8896-AC9B4ECE6792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83328850-2983-4199-8896-AC9B4ECE6792}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83328850-2983-4199-8896-AC9B4ECE6792}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C45071DD-AD37-4DB0-9CD0-DD22A7BC5F09} = {57AF1E04-9A26-45BB-99B3-B43CAE06F150}
+		{C5F1ED95-99C3-4E98-A235-C883347549AE} = {57AF1E04-9A26-45BB-99B3-B43CAE06F150}
+		{BE896F07-DF0E-40D6-B1B5-0A856249C0E7} = {57AF1E04-9A26-45BB-99B3-B43CAE06F150}
+		{A6965C3B-67C6-4BA1-9444-5059C6B4237B} = {73F51D04-A02D-4DCA-AD8A-10849064C48E}
+		{83328850-2983-4199-8896-AC9B4ECE6792} = {73F51D04-A02D-4DCA-AD8A-10849064C48E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E4DEFBEF-8B5E-4E46-BBC6-EA6898129C81}
+	EndGlobalSection
+EndGlobal

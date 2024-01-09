@@ -1,0 +1,37 @@
+﻿@inherits VLComponentBase;
+
+@using VL.Challenge.Blazor.Client.Services;
+@using VL.Challenge.Common.Users;
+
+@inject IUserApi _userApi;
+
+
+<EditForm Model="Model" OnValidSubmit="Login">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="d-flex">
+
+        <div class="p-2 flex-fill">
+            <div class="input-group mb-3">
+                <InputText @bind-Value="Model.Username" class="form-control" placeholder="Enter username to login.." />
+            </div>
+        </div>
+
+        <div class="p-2">
+            <button class="btn btn-primary" type="submit" style="width:200px">Login</button>
+        </div>
+    </div>
+
+</EditForm>
+
+
+@code {
+    public UserCreateModel Model { get; set; } = new();
+
+    private async Task Login()
+    {
+        await _userApi.Login(Model.Username);
+        await NotifyStateHasChanged();
+    }
+}

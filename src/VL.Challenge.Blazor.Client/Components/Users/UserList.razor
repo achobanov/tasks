@@ -1,0 +1,47 @@
+﻿@inherits VLComponentBase;
+
+@using VL.Challenge.Blazor.Client.Services;
+@using VL.Challenge.Common.Models.Users;
+@using VL.Challenge.Common.Users;
+
+@inject IUserApi _userApi;
+
+<h3>Users</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Tasks</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in _users)
+        {
+            <tr>
+                <td>@user.Username</td>
+                <td>@user.Tasks</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<UserListModel> _users = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUsers();
+    }
+
+    public async Task LoadUsers()
+    {
+        var users = await _userApi.GetList();
+        if (users.Any())
+        {
+            _users.Clear();
+            _users.AddRange(users);
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

@@ -1,0 +1,58 @@
+﻿@page "/tasks/create"
+
+@using VL.Challenge.Blazor.Client.Services;
+@using VL.Challenge.Common.Tasks;
+
+@inject IUserContext _userContext;
+@inject ITaskApi _taskApi;
+@inject IToaster _toaster;
+@inject NavigationManager _navigationManager;
+
+<h3>Create Task</h3>
+
+<EditForm Model="_model" OnValidSubmit="Submit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="input-group mb-3">
+        <InputText @bind-Value="_model.Subject" class="form-control" placeholder="Subject" />
+    </div>
+
+    <div class="input-group mb-3">
+        <InputText @bind-Value="_model.Description" class="form-control" placeholder="Description" />
+
+    </div>
+
+    <div class="input-group mb-3">
+        <InputDate @bind-Value="_model.StartTime" class="form-control" placeholder="Start time" />
+    </div>
+    
+    <div class="input-group mb-3">
+        <InputDate @bind-Value="_model.EndTime" class="form-control" placeholder="End time" />
+    </div>
+
+    <button class="btn btn-primary" type="submit">Create</button>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public Func<Task> OnSubmit { get; set; } = default!;
+
+    private TaskCreateModel _model = new();
+
+    public async Task Submit()
+    {
+        if (_userContext.LoggingId == null)
+        {
+            _toaster.Add("Oops", "Login to create Tasks", UiColor.Danger);
+            _navigationManager.NavigateTo("/");
+            return;
+        }
+        _model.UserId = _userContext.LoggingId.Value;
+        if (await _taskApi.Create(_model))
+        {
+            _navigationManager.NavigateTo("/tasks");
+        }
+    }
+}

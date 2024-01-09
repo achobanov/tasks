@@ -1,0 +1,42 @@
+﻿@page "/"
+
+@using VL.Challenge.Blazor.Client.Components.Users;
+@using VL.Challenge.Blazor.Client.Services;
+
+@inject IUserContext _userContext;
+@inject IUserApi _userApi;
+
+<div class="container">
+    @if (_userContext.LoggingId == null)
+    {
+        <div class="row">
+            <div class="col-6">
+                <LoginForm NotifyStateHasChanged="Refresh" />
+            </div>
+            <div class="col-6">
+                <RegisterForm NotifyStateHasChanged="Refresh" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <button class="btn btn-outline-danger" @onclick="() => _userApi.Logout()">Logout</button>
+        </div>
+    }
+
+    <div class="row">
+        <UserList @ref="_userListRef" />
+    </div>
+</div>
+
+
+@code {
+    private UserList _userListRef = default!;
+
+    private async Task Refresh()
+    {
+        await _userListRef.LoadUsers();
+        await InvokeAsync(StateHasChanged);
+    }
+}

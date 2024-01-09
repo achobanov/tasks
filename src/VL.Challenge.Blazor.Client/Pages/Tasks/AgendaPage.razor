@@ -1,0 +1,104 @@
+﻿@page "/tasks"
+
+@using VL.Challenge.Blazor.Client.Components
+@using VL.Challenge.Blazor.Client.Services;
+@using VL.Challenge.Common.Tasks;
+
+@inject IUserApi _userApi;
+@inject ITaskApi _taskApi;
+@inject IUserContext _userContext;
+@inject NavigationManager _navigationManager;
+@inject IToaster _toaster;
+
+<div class="container">
+    <div class="row justify-content-between">
+        <div class="col-1">
+            <h3>Tasks</h3>
+        </div>
+        <div class="col-1">
+            <a class="btn btn-primary" href="/tasks/create">Create</a>
+        </div>
+    </div>
+    @if (_agenda != default)
+    {
+        <div class="row">
+            <div class="accordion">
+                @foreach (var group in _agenda)
+                {
+                    <div class="accordion-item">
+                        <Collapsable IsCollapsed="false">
+                            <Header>Overlaps</Header>
+                            <Content>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th>Description</th>
+                                            <th>StartTime</th>
+                                            <th>EndTime</th>
+                                            <th>Update</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var task in group)
+                                        {
+                                            <tr>
+                                                <th>@task.Subject</th>
+                                                <th>@task.Description</th>
+                                                <th>@task.StartTime</th>
+                                                <th>@task.EndTime</th>
+                                                <th>
+                                                    <a class="btn btn-primary" href="@($"/tasks/update/{task.Id}")">
+                                                        Update
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <button class="btn btn-outline-danger" @onclick="() => Delete(task.Id)">
+                                                        Delete
+                                                    </button>
+                                                </th>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </Content>
+                        </Collapsable>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private AgendaModel _agenda = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (_userContext.LoggingId == null)
+        {
+            _toaster.Add("Oops", "Login to create Tasks", UiColor.Warning);
+            _navigationManager.NavigateTo("/");
+            return;
+        }
+        var agenda = await _userApi.GetAgenda(_userContext.LoggingId.Value);
+        if (agenda == null)
+        {
+            _toaster.Add("Oops", $"Agenda for user with id '{_userContext.LoggingId.Value}' not found", UiColor.Danger);
+            _navigationManager.NavigateTo("/");
+            return;
+        }
+
+        _agenda = agenda;
+    }
+
+    private async Task Delete(int id)
+    {
+        if (await _taskApi.Delete(id))
+        {
+            _agenda.Remove(id);
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}
