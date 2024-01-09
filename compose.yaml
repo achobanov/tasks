@@ -1,0 +1,11 @@
+services:
+    api:
+        image: api-image
+        container_name: api
+        build:
+            dockerfile: build/Api/Dockerfile
+        ports:
+            - 8000:80
+volumes:
+    fs-volume:
+        name: fs-volume
