@@ -5,31 +5,39 @@ namespace VL.Challenge.Blazor.Client.Services;
 
 public class TaskApi : ITaskApi
 {
-    private readonly IHttpService _httpService;
+    private static Random _random = new Random();
+    private readonly IDataService _dataService;
 
-    public TaskApi(IHttpService httpService)
+    public TaskApi(IDataService dataService)
     {
-        _httpService = httpService;
+        _dataService = dataService;
     }
 
-    public async Task<bool> Create(TaskCreateModel model)
+    public Task<bool> Create(TaskCreateModel model)
     {
-        return await _httpService.Post("tasks", model);
+        var task = new VLTask(_random.Next(), model.Subject, model.Description, model.StartTime, model.EndTime);
+        var result = _dataService.CreateTask(model.UserId, task);
+        return Task.FromResult(result);
     }
 
-    public async Task<bool> Delete(int id)
+    public Task<bool> Delete(int id)
     {
-        return await _httpService.Delete($"tasks/{id}");
+        var result = _dataService.RemoveTask(id);
+        return Task.FromResult(result);
     }
 
-    public async Task<VLTask?> Read(int id)
+    public Task<VLTask?> Read(int id)
     {
-        return await _httpService.Get<VLTask>($"tasks/{id}");
+        var match = _dataService.GetTask(id);
+        return Task.FromResult(match);
     }
 
-    public async Task<bool> Update(TaskUpdateModel model)
+    public Task<bool> Update(TaskUpdateModel model)
     {
-        return await _httpService.Put("tasks", model);
+        var match = _dataService.GetTask(model.Id);
+        var task = new VLTask(match?.Id ?? _random.Next(), model.Subject, model.Description, model.StartTime, model.EndTime);
+        var result = _dataService.UpdateTask(task);
+        return Task.FromResult(result);
     }
 }
 

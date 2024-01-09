@@ -2,41 +2,50 @@
 using VL.Challenge.Common.Tasks;
 using VL.Challenge.Common.Users;
 using VL.Challenge.Domain;
+using VL.Challenge.Domain.Entities;
 
 namespace VL.Challenge.Blazor.Client.Services;
 
 public class UserApi : IUserApi
 {
-    private readonly IHttpService _httpService;
+    private static Random _random = new Random();
     private readonly UserContext _userContext;
+    private readonly IDataService _dataService;
 
-    public UserApi(IHttpService httpService, UserContext userContext)
+    public UserApi(UserContext userContext, IDataService dataService)
     {
-        _httpService = httpService;
         _userContext = userContext;
+        _dataService = dataService;
     }
 
-    public async Task<AgendaModel?> GetAgenda(int id)
+    public Task<AgendaModel?> GetAgenda(int id)
     {
-        var agenda = await _httpService.Get<Agenda>($"users/{id}/agenda");
-        if (agenda == null)
+        var user = _dataService.GetUser(id);
+        if (user == null)
         {
-            return null;
+            return Task.FromResult((AgendaModel?)null);
         }
+        var agenda = new Agenda(user);
         var model = new AgendaModel();
         model.AddRange(agenda);
-        return model;
+        return Task.FromResult((AgendaModel?)model);
     }
 
-    public async Task<IEnumerable<UserListModel>> GetList()
+    public Task<IEnumerable<UserListModel>> GetList()
     {
-        return await _httpService.Get<List<UserListModel>>("users") ?? new();
+        var users = _dataService.GetAllUsers().Select(x => new UserListModel { Username = x.Username, Tasks = x.Tasks.Count });
+        return Task.FromResult(users);
     }
 
-    public async Task Login(string username)
+    public Task Login(string username)
     {
-        var payload = await _httpService.Post<UserLoginResponseModel>($"users/{username}/login");
-        _userContext.LoggingId = payload?.Id;
+        var user = _dataService.GetUser(username);
+        if (user == null)
+        {
+            return Task.CompletedTask;
+        }
+        _userContext.LoggingId = user.Id;
+        return Task.CompletedTask;
     }
 
     public void Logout()
@@ -44,9 +53,11 @@ public class UserApi : IUserApi
         _userContext.LoggingId = null;
     }
 
-    public async Task<bool> Register(UserCreateModel model)
+    public Task<bool> Register(UserCreateModel model)
     {
-        return await _httpService.Post($"users", model);
+        var user = new User(_random.Next(), model.Username);
+        _dataService.CreateUser(user);
+        return Task.FromResult(true);
     }
 }
 

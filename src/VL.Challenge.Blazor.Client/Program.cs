@@ -16,6 +16,6 @@ builder.Services.AddTransient<IUserApi, UserApi>();
 builder.Services.AddTransient<ITaskApi, TaskApi>();
 builder.Services.AddSingleton<Toaster>();
 builder.Services.AddSingleton<IToaster>(x => x.GetRequiredService<Toaster>());
-builder.Services.AddTransient<IHttpService, HttpService>();
+builder.Services.AddSingleton<IDataService, DataService>();
 
 await builder.Build().RunAsync();
