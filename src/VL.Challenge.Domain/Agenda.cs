@@ -33,7 +33,7 @@ public class Agenda : List<List<VLTask>>
         return later.StartTime < earlier.EndTime;
     }
 
-    private void AddConcurentTasks(IEnumerable<VLTask> tasks)
+    public void AddConcurentTasks(IEnumerable<VLTask> tasks)
     {
         this.Add(tasks.ToList());
     }
