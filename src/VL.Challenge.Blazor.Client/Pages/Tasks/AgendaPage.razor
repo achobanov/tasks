@@ -64,7 +64,8 @@
             _navigationManager.NavigateTo("/");
             return;
         }
-        var agenda = await _userApi.GetAgenda(_userContext.LoggingId.Value);
+        //var agenda = await _userApi.GetAgenda(_userContext.LoggingId.Value);
+        var agenda = await _userApi.GetData();
         if (agenda == null)
         {
             _toaster.Add("Oops", $"Agenda for user with id '{_userContext.LoggingId.Value}' not found", UiColor.Danger);
