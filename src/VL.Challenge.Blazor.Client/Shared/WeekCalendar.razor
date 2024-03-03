@@ -1,5 +1,4 @@
 ﻿<h3>WeekCalendar</h3>
-@inject IUserApi _userApi;
 
 <div class="week-container"> 
     @foreach (var Day in _weekCalendar.WeekDays)
@@ -8,8 +7,8 @@
             <MudCard class="day-of-week today"  >
                 <MudCardHeader>
                 <CardHeaderContent>
-                    <MudText Typo="Typo.h6" >@Day.DayOfWeek</MudText>
                     <MudText>Today is</MudText>
+                    <MudText Typo="Typo.h6" >@Day.DayOfWeek</MudText>             
                 </CardHeaderContent>
             </MudCardHeader>
                 <MudCardContent>
@@ -17,13 +16,14 @@
                     <MudText>@Day.ToString("dd MMMM yyyy")</MudText>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton Variant="Variant.Text" Color="Color.Primary" @onclick="GetNumberOfTasks">View Tasks</MudButton>
+                    <MudButton Variant="Variant.Text" Color="Color.Primary" @onclick="GetTasks">View Tasks</MudButton>
                 </MudCardActions>
             </MudCard>
         }else{
             <MudCard class="day-of-week">
                 <MudCardHeader>
                 <CardHeaderContent>
+                    <MudText class="invisible">Today is</MudText>
                     <MudText Typo="Typo.h6" >@Day.DayOfWeek</MudText>
                 </CardHeaderContent>
             </MudCardHeader>
@@ -31,7 +31,7 @@
                     <MudText>@Day.ToString("dd MMMM yyyy")</MudText>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton Variant="Variant.Text" Color="Color.Primary" @onclick="GetNumberOfTasks" >View Tasks</MudButton>
+                    <MudButton Variant="Variant.Text" Color="Color.Primary" @onclick="GetTasks" >View Tasks</MudButton>
                 </MudCardActions>
             </MudCard>
         }
@@ -40,18 +40,22 @@
 </div>
 <style>
     .day-of-week {
-        width: 10% !important;
+        width: 12% !important;
         margin-left: 10px;
         margin-right: 10px;
     }
     .week-container{
         display: flex;
         flex-direction: row;
+        margin-bottom:10px;
     }
     .today{
         outline:auto;
         outline-width:1px;
         outline-color:aquamarine;
+    }
+    .invisible{
+        visibility:hidden;
     }
 </style>
 
@@ -70,4 +74,6 @@
         }
         return false;
     }
+
+    public void GetTasks(){}
 }
