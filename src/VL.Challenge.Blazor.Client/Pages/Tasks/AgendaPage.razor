@@ -3,6 +3,7 @@
 @using VL.Challenge.Blazor.Client.Components
 @using VL.Challenge.Blazor.Client.Services;
 @using VL.Challenge.Common.Tasks;
+@using VL.Challenge.Domain.Entities;
 
 @inject IUserApi _userApi;
 @inject ITaskApi _taskApi;
@@ -12,6 +13,9 @@
 
 <div class="container">
     <div class="row justify-content-between">
+
+        <WeekCalendar></WeekCalendar>
+
         <div class="col-1">
             <h3>Tasks</h3>
         </div>
@@ -23,48 +27,26 @@
     {
         <div class="row">
             <div class="accordion">
-                @foreach (var group in _agenda)
+                       @foreach (var group in _agenda)
                 {
-                    <div class="accordion-item">
-                        <Collapsable IsCollapsed="false">
-                            <Header>Overlaps</Header>
-                            <Content>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Subject</th>
-                                            <th>Description</th>
-                                            <th>StartTime</th>
-                                            <th>EndTime</th>
-                                            <th>Update</th>
-                                            <th>Delete</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var task in group)
-                                        {
-                                            <tr>
-                                                <th>@task.Subject</th>
-                                                <th>@task.Description</th>
-                                                <th>@task.StartTime</th>
-                                                <th>@task.EndTime</th>
-                                                <th>
-                                                    <a class="btn btn-primary" href="@($"/tasks/update/{task.Id}")">
-                                                        Update
-                                                    </a>
-                                                </th>
-                                                <th>
-                                                    <button class="btn btn-outline-danger" @onclick="() => Delete(task.Id)">
-                                                        Delete
-                                                    </button>
-                                                </th>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </Content>
-                        </Collapsable>
-                    </div>
+                    <MudDataGrid T="VLTask" ReadOnly="false" Items="group" Filterable="false" SortMode="@SortMode.None"
+                             Groupable="false" EditMode="DataGridEditMode.Form" Bordered="true"
+                             Dense="true" EditTrigger="DataGridEditTrigger.Manual">
+                        <Columns>
+                            <PropertyColumn Property="x => x.Id" />
+                            <PropertyColumn Property="x => x.Description" />
+                            <PropertyColumn Property="x => x.Date"  />
+                            <PropertyColumn Property="x => x.StartTime"  />
+                            <PropertyColumn Property="x => x.EndTime" />
+                            <PropertyColumn Property="x => x.Subject"  />
+                            <TemplateColumn Hidden="false" CellClass="d-flex justify-end">
+                                <CellTemplate>
+                                    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+                                </CellTemplate>
+                            </TemplateColumn>
+                        </Columns>
+                    </MudDataGrid>
+                    
                 }
             </div>
         </div>
@@ -82,7 +64,8 @@
             _navigationManager.NavigateTo("/");
             return;
         }
-        var agenda = await _userApi.GetAgenda(_userContext.LoggingId.Value);
+        //var agenda = await _userApi.GetAgenda(_userContext.LoggingId.Value);
+        var agenda = await _userApi.GetData();
         if (agenda == null)
         {
             _toaster.Add("Oops", $"Agenda for user with id '{_userContext.LoggingId.Value}' not found", UiColor.Danger);
@@ -91,6 +74,21 @@
         }
 
         _agenda = agenda;
+    }
+    private List<string> _events = new();
+    void StartedEditingItem(VLTask item)
+    {
+        _events.Insert(0, $"Event = StartedEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    void CanceledEditingItem(VLTask item)
+    {
+        _events.Insert(0, $"Event = CanceledEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    void CommittedItemChanges(VLTask item)
+    {
+        _events.Insert(0, $"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
     }
 
     private async Task Delete(int id)

@@ -4,6 +4,14 @@ namespace VL.Challenge.Common.Tasks;
 
 public class AgendaModel : List<List<VLTask>>
 {
+    public AgendaModel(List<VLTask> tasks)
+    {
+        this.Insert(0, tasks);
+    }
+    public AgendaModel()
+    {
+    }
+
     public void Remove(int taskId)
     {
         foreach (var group in this)

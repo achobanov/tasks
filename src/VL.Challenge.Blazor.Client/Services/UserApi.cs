@@ -1,4 +1,5 @@
-﻿using VL.Challenge.Common.Models.Users;
+﻿using System.Reflection;
+using VL.Challenge.Common.Models.Users;
 using VL.Challenge.Common.Tasks;
 using VL.Challenge.Common.Users;
 using VL.Challenge.Domain;
@@ -26,9 +27,24 @@ public class UserApi : IUserApi
             return Task.FromResult((AgendaModel?)null);
         }
         var agenda = new Agenda(user);
+        if (!agenda.Any())
+        {
+            //mock data
+            var tasks = Enumerable.Range(1, 4).Select(i => new VLTask(i, "Subject " + i, null, DateTime.Now, DateTime.Now.AddHours(2)));
+            //add mock data
+            agenda.AddConcurentTasks(tasks);
+        }
         var model = new AgendaModel();
+
         model.AddRange(agenda);
         return Task.FromResult((AgendaModel?)model);
+    }
+
+    public Task<AgendaModel> GetData()
+    {
+        var tasks = Enumerable.Range(1, 4).Select(i => new VLTask(i, "Subject " + i, null, DateTime.Now, DateTime.Now.AddHours(2))).ToList();
+        var model = new AgendaModel(tasks);
+        return Task.FromResult(model);
     }
 
     public Task<IEnumerable<UserListModel>> GetList()
@@ -65,6 +81,8 @@ public interface IUserApi
 {
     Task<AgendaModel?> GetAgenda(int id);
     Task<IEnumerable<UserListModel>> GetList();
+
+    Task<AgendaModel> GetData();
     Task<bool> Register(UserCreateModel model);
     Task Login(string username);
     void Logout();
