@@ -1,5 +1,6 @@
 using Challenge.API;
 using Challenge.API.Filters;
+using Challenge.Web.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 

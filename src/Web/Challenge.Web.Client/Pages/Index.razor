@@ -1,10 +1,18 @@
-﻿@page "/"
+﻿@using Challenge.Web.Client.Services
+@using Microsoft.AspNetCore.Components.Forms;
+
+@page "/"
 
 <div class="container">
-    <p>Hello</p>
+    <InputFile OnChange="Upload" />
 </div>
 
 
 @code {
-    
+    [Inject] FileUploadClient _client { get; set; } = default!;
+
+    private async Task Upload(InputFileChangeEventArgs args)
+    {
+        await _client.Upload(args.File);
+    }
 }

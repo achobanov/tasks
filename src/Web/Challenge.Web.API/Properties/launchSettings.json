@@ -14,8 +14,6 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "SQL_HOST": "localhost",
-        "REDIS_HOST": "localhost"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5134"
