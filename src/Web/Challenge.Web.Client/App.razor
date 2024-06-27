@@ -1,14 +1,34 @@
-﻿@using Challenge.Web.Client.Shared;
+﻿@using Challenge.Web.Client.Components
+@using Challenge.Web.Client.Shared;
 
-<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
-</Router>
+<CustomBoundary>
+    <ChildContent>
+        <Router AppAssembly="@typeof(App).Assembly">
+            <Found Context="routeData">
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            </Found>
+            <NotFound>
+                <PageTitle>Not found</PageTitle>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <p role="alert">Sorry, there's nothing at this address.</p>
+                </LayoutView>
+            </NotFound>
+        </Router>
+    </ChildContent>
+
+    <ErrorContent>
+        <br />
+        <br />
+        <div class="container">
+            <p>@_boundary.Message</p>
+            <p>@_boundary.StackTrace</p>
+        </div>
+        <button class="btn btn-primary" @onclick="_ => _boundary.Recover()">Back</button>
+    </ErrorContent>
+</CustomBoundary>
+
+@code {
+    // TODO: make it prettier if time
+    private CustomBoundary _boundary = default!;
+}
