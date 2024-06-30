@@ -1,5 +1,6 @@
 ﻿using Challenge.Common.Contravts;
 using Challenge.Common.Injection;
+using Challenge.Domain;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Challenge.Web.Client.Services;
