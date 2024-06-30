@@ -1,6 +1,7 @@
 ﻿using Challenge.Common.Contravts;
 using Challenge.Domain.Abstractions;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using static Challenge.Common.Constants;
 
 namespace Challenge.Web.API.Controllers;
@@ -13,7 +14,11 @@ public class FileController : ControllerBase
     {
         foreach (var file in request.Files)
         {
-            XmlValidator.Validate(file);
+            var bytes = Convert.FromBase64String(file.Content);
+            var encoding = Encoding.GetEncoding(file.EncodingName);
+            var contents = encoding.GetString(bytes);
+            ;
+            //XmlValidator.Validate(contents);
         }
         return Task.FromResult(Ok() as IActionResult);
     }

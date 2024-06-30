@@ -4,13 +4,12 @@ namespace Challenge.Domain.Abstractions;
 
 public static class XmlValidator
 {
-    public static bool Validate(FileModel file)
+    public static void Validate(FileModel file)
     {
         var document = new XmlDocument();
         try
         {
             document.LoadXml(file.Content);
-            return true;
         }
         catch (XmlException)
         {

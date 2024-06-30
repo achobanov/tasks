@@ -1,3 +1,5 @@
-﻿namespace Challenge.Domain;
+﻿using System.Text;
 
-public record struct FileModel(string Filename, string Content);
+namespace Challenge.Domain;
+
+public record struct FileModel(string Filename, string Content, string EncodingName);
