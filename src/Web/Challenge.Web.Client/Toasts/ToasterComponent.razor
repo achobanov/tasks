@@ -1,12 +1,10 @@
-﻿@using Challenge.Web.Client.Services;
-@using Challenge.Web.Client.Toasts;
-@implements IDisposable
+﻿@implements IDisposable
 
-@if (this.Toaster.HasToasts)
+@if (this._toaster.HasToasts)
 {
     <div class="">
         <div class="toast-container position-absolute top-0 end-0 mt-5 pt-5 pe-2">
-            @foreach (var toast in this.Toaster.GetToasts())
+            @foreach (var toast in this._toaster.GetToasts())
             {
                 var toastClass = this.GetToastClass(toast);
                 <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
@@ -14,7 +12,7 @@
                         <strong class="me-auto">@toast.Title</strong>
                         <small class="@toastClass">@toast.ElapsedTimeText</small>
                         <button type="button" class="btn-close btn-close-white" aria-label="Close"
-                                @onclick="() => this.Toaster.ClearToast(toast)"></button>
+                                @onclick="() => this._toaster.ClearToast(toast)"></button>
                     </div>
                     <div class="toast-body">@toast.Message</div>
                 </div>
@@ -25,18 +23,18 @@
 
 @code {
     [Inject]
-    private Toaster Toaster { get; set; } = null!;
+    private Toaster _toaster { get; set; } = null!;
 
     protected override void OnInitialized()
     {
-        this.Toaster.ToasterChanged += HandleToastChanged;
-        this.Toaster.ToasterTimerElapsed += HandleToastChanged;
+        this._toaster.ToasterChanged += HandleToastChanged;
+        this._toaster.ToasterTimerElapsed += HandleToastChanged;
     }
 
     public void Dispose()
     {
-        this.Toaster.ToasterChanged -= HandleToastChanged;
-        this.Toaster.ToasterTimerElapsed -= HandleToastChanged;
+        this._toaster.ToasterChanged -= HandleToastChanged;
+        this._toaster.ToasterTimerElapsed -= HandleToastChanged;
     }
 
     private void HandleToastChanged(object? sender, EventArgs e)

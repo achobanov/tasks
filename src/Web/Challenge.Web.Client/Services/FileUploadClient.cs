@@ -1,5 +1,7 @@
-﻿using Challenge.Common.Contravts;
+﻿using Challenge.Common;
+using Challenge.Common.Contravts;
 using Challenge.Common.HTTP;
+using Challenge.Web.Client.Toasts;
 using Microsoft.AspNetCore.Components.Forms;
 using static Challenge.Common.Constants;
 
@@ -9,7 +11,7 @@ public class FileUploadClient : HttpClientBase
 {
     private readonly IFileReader _fileReader;
 
-    public FileUploadClient(HttpClient client, IFileReader fileReader) : base(client)
+    public FileUploadClient(HttpClient client, IFileReader fileReader, IToaster toaster) : base(client, toaster)
     {
         _fileReader = fileReader;
     }

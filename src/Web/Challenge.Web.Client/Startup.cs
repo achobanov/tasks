@@ -1,6 +1,7 @@
 ﻿using Challenge.Common.HTTP;
 using Challenge.Common.Injection;
 using Challenge.Web.Client.Services;
+using Challenge.Web.Client.Toasts;
 
 namespace Challenge.Web.Client;
 
