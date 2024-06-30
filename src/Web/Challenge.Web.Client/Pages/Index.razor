@@ -4,15 +4,15 @@
 @page "/"
 
 <div class="container">
-    <InputFile OnChange="Upload" />
+    <InputFile OnChange="Upload" multiple />
 </div>
-
 
 @code {
     [Inject] FileUploadClient _client { get; set; } = default!;
 
     private async Task Upload(InputFileChangeEventArgs args)
     {
-        await _client.Upload(args.File);
+        var fileTasks = args.GetMultipleFiles();
+        await _client.Upload(fileTasks);
     }
 }

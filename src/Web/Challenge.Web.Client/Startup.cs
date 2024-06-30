@@ -1,4 +1,5 @@
 ﻿using Challenge.Common.HTTP;
+using Challenge.Common.Injection;
 using Challenge.Web.Client.Services;
 
 namespace Challenge.Web.Client;
@@ -13,6 +14,7 @@ public static class Startup
 
         // TODO: use conventional
         services
+            .RegisterConventionalServices()
             .AddSingleton<Toaster>()
             .AddSingleton<IToaster>(x => x.GetRequiredService<Toaster>());
 

@@ -7,17 +7,19 @@ namespace Challenge.Web.Client.Services;
 
 public class FileUploadClient : HttpClientBase
 {
-    public FileUploadClient(HttpClient client) : base(client)
+    private readonly IFileReader _fileReader;
+
+    public FileUploadClient(HttpClient client, IFileReader fileReader) : base(client)
     {
+        _fileReader = fileReader;
     }
 
-    public async Task Upload(IBrowserFile file)
+    public async Task Upload(IEnumerable<IBrowserFile> files)
     {
-        using var stream = file.OpenReadStream();
-        using var reader  = new StreamReader(stream);
-        var content = await reader.ReadToEndAsync();
+        var fileTasks = files.Select(_fileReader.Read);
+        var filesModels = await Task.WhenAll(fileTasks);
 
-        var contract = new FileUploadContract(file.Name, content);
+        var contract = new FileUploadContract(filesModels);
         await Post(Endpoints.FILE_UPLOAD, contract);
     }
 }
