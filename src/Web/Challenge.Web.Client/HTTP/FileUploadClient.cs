@@ -1,11 +1,11 @@
-﻿using Challenge.Common;
-using Challenge.Common.Contravts;
-using Challenge.Common.HTTP;
+﻿using Challenge.Common.HTTP;
+using Challenge.Web.Client.Files;
 using Challenge.Web.Client.Toasts;
+using Challenge.Web.Common.Contracts;
 using Microsoft.AspNetCore.Components.Forms;
 using static Challenge.Common.Constants;
 
-namespace Challenge.Web.Client.Services;
+namespace Challenge.Web.Client.HTTP;
 
 public class FileUploadClient : HttpClientBase
 {
@@ -16,12 +16,12 @@ public class FileUploadClient : HttpClientBase
         _fileReader = fileReader;
     }
 
-    public async Task Upload(IEnumerable<IBrowserFile> files)
+    public async Task Upload(IEnumerable<IBrowserFile> borwserFiles)
     {
-        var fileTasks = files.Select(_fileReader.Read);
-        var filesModels = await Task.WhenAll(fileTasks);
+        var fileTasks = borwserFiles.Select(_fileReader.Read);
+        var files = await Task.WhenAll(fileTasks);
 
-        var contract = new FileUploadContract(filesModels);
+        var contract = new FileUploadContract(files);
         await Post(Endpoints.FILE_UPLOAD, contract);
     }
 }

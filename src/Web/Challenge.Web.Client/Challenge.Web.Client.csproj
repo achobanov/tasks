@@ -13,12 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Challenge.Common\Challenge.Common.csproj" />
     <ProjectReference Include="..\..\Challenge.Domain\Challenge.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Errors\" />
+    <ProjectReference Include="..\Challenge.Web.Common\Challenge.Web.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿using Challenge.Domain;
+﻿using Challenge.Domain.Core;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -17,20 +17,9 @@ public abstract class HttpClientBase
 
     protected async Task Post<T>(string endpoint, T payload, CancellationToken? cancellationToken = null)
     {
-        try
-        {
-            cancellationToken = cancellationToken ?? CancellationToken.None;
-            var response = await client.PostAsJsonAsync(endpoint, payload, cancellationToken: cancellationToken.Value);
-            await HandleResponse(response);
-        }
-        catch (DomainException validation)
-        {
-            await _notifier.Validation(validation.Message, validation.StackTrace);
-        }
-        catch (Exception ex)
-        {
-            await _notifier.Error(ex.Message, ex.StackTrace);
-        }
+        cancellationToken = cancellationToken ?? CancellationToken.None;
+        var response = await client.PostAsJsonAsync(endpoint, payload, cancellationToken: cancellationToken.Value);
+        await HandleResponse(response);
     }
 
     private async Task HandleResponse(HttpResponseMessage response)

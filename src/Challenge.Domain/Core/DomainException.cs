@@ -1,4 +1,4 @@
-﻿namespace Challenge.Domain;
+﻿namespace Challenge.Domain.Core;
 
 /// <summary>
 /// DomainException is raised in case of validation errors

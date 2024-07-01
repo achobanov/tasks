@@ -17,14 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Challenge.Web.Client\Challenge.Web.Client.csproj" />
     <ProjectReference Include="..\..\Challenge.Common\Challenge.Common.csproj" />
+    <ProjectReference Include="..\Challenge.Web.Client\Challenge.Web.Client.csproj" />
     <ProjectReference Include="..\..\Challenge.Domain\Challenge.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Requests\" />
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\Challenge.Web.Common\Challenge.Web.Common.csproj" />
   </ItemGroup>
 
 </Project>

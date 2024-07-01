@@ -8,4 +8,7 @@ public class Constants
     {
         public const string FILE_UPLOAD = "file/upload";
     }
+
+    public const int MegaByte = 1_024_000;
+    public const int KilloByte = 1_024;
 }

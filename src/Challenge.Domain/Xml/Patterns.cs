@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Challenge.Web.Client.FileReaders;
+namespace Challenge.Domain.Xml;
 
 public static partial class Patterns
 {
