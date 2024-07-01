@@ -13,6 +13,7 @@ public record struct PlainFile(string Name, string Content)
     {
         var encoding = MatchEncoding(notifier);
         var bytes = encoding.GetBytes(Content);
+        FilesizeValidator.Validate(bytes, Name);
 
         var base64Encoded = Convert.ToBase64String(bytes);
         return new EncodedFile(Name, base64Encoded, encoding.WebName);

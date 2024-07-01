@@ -7,6 +7,7 @@ public record struct EncodedFile(string Name, string Payload, string EncodingNam
     public PlainFile Decode(INotifier notifier)
     {
         var bytes = Convert.FromBase64String(Payload);
+        FilesizeValidator.Validate(bytes, Name);
 
         var encoding = EncodingProvider.GetEncodingOrUtf8(notifier, EncodingName);
         var contents = encoding.GetString(bytes);
