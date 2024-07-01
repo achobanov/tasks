@@ -2,7 +2,7 @@
 using Challenge.Domain.Files;
 using System.Xml;
 
-namespace Challenge.Domain.Abstractions;
+namespace Challenge.Domain.Xml;
 
 public static class XmlProcessor
 {

@@ -1,5 +1,6 @@
 ﻿using Challenge.Common;
-using Challenge.Domain.Abstractions;
+using Challenge.Domain.Converters;
+using Challenge.Domain.Xml;
 using Challenge.Web.Common.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
@@ -27,6 +28,8 @@ public class FileController : ControllerBase
             var contents = encoding.GetString(bytes);
             var plainFile = file.Decode(_notifier);
             var document = XmlProcessor.Parse(plainFile);
+            var json = XmlToJsonConverter.Convert(document);
+            ;
         }
         return Task.FromResult(Ok() as IActionResult);
     }
