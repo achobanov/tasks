@@ -41,7 +41,7 @@ public class FileController : ControllerBase
     [HttpPost(Endpoints.FILE_UPLOAD)]
     public async Task<IActionResult> Upload([FromBody] FileUploadContract request)
     {
-        await _uploadDispatcher.Dispatch(request.Files);
-        return Ok();
+        var result = await _uploadDispatcher.Dispatch(request.Files);
+        return Ok(result);
     }
 }

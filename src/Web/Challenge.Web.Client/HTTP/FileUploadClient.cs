@@ -1,4 +1,5 @@
 ﻿using Challenge.Common.HTTP;
+using Challenge.Common.JSON;
 using Challenge.Web.Client.Files;
 using Challenge.Web.Client.Toasts;
 using Challenge.Web.Common.Contracts;
@@ -16,14 +17,15 @@ public class FileUploadClient : HttpClientBase
         _fileReader = fileReader;
     }
 
-    public async Task Upload(IEnumerable<IBrowserFile> borwserFiles)
+    public async Task<IEnumerable<FileModel>> Upload(IEnumerable<IBrowserFile> borwserFiles)
     {
-        var fileTasks = borwserFiles.Select(_fileReader.Read);
+        var fileTasks = borwserFiles.Select(_fileReader.ReadXml);
         var files = (await Task.WhenAll(fileTasks))
             .Where(x => x.HasValue)
             .Select(x => x!.Value);
 
         var contract = new FileUploadContract(files);
-        await Post(Endpoints.FILE_UPLOAD, contract);
+        return await Post(Endpoints.FILE_UPLOAD, contract)
+            .FromJson<IEnumerable<FileModel>>();
     }
 }

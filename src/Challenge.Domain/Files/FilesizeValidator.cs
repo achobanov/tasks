@@ -8,7 +8,7 @@ public static class FilesizeValidator
 {
     private static readonly Filesize _limit = new(Constants.MegaByte);
 
-    public static string Base64Encode(this PlainFile file, Encoding encoding)
+    public static string Base64Encode(this IPlainFile file, Encoding encoding)
     {
         var bytes = encoding.GetBytes(file.Content);
         Validate(bytes, file.Name);
@@ -16,12 +16,18 @@ public static class FilesizeValidator
         return Convert.ToBase64String(bytes);
     }
 
-    public static string Base64Decode(this PlainFile file, Encoding encoding)
+    public static string Base64Decode(this IEncodedFile file, Encoding encoding)
     {
         var bytes = Convert.FromBase64String(file.Content);
         Validate(bytes, file.Name);
 
         return encoding.GetString(bytes);
+    }
+
+    public static string Base64Decode(this IEncodedFile file, INotifier notifier)
+    {
+        var encoding = EncodingProvider.GetEncodingOrUtf8(notifier, file.EncodingName);
+        return Base64Decode(file, encoding);
     }
 
     public static void Validate(byte[] bytes, string name)

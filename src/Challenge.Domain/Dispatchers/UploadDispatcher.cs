@@ -2,7 +2,6 @@
 using Challenge.Domain.Core;
 using Challenge.Domain.Files;
 using Challenge.Domain.Processors;
-using System.Text;
 
 namespace Challenge.Domain.Dispatchers;
 
@@ -17,26 +16,32 @@ public class UploadDispatcher : IUploadDispatcher
         _xmlUpload = xmlUpload;
     }
 
-    public async Task Dispatch(IEnumerable<EncodedFile> files)
+    public async Task<IEnumerable<IPlainFile>> Dispatch(IEnumerable<XmlEncodedFile> files)
     {
-        var tasks = new List<Task>();
+        var tasks = new List<Task<IPlainFile?>>();
         foreach (var file in files)
         {
-            var task = Task.Run(() => InterceptValidations(() => _xmlUpload.Process(file)));
+            var task = Task.Run(() => InterceptValidations(() => _xmlUpload.Process(file))); // TODO remove Task.Run
             tasks.Add(task);
         }
-        await Task.WhenAll(tasks);
+        var resultFiles = (await Task.WhenAll(tasks))
+            .Where(x => x != null)
+            .Select(x => x!)
+            .ToList();
+
         if (_validations.Any())
         {
-            AggregateValidations(files.Count());
+            AggregateValidations(resultFiles.Count);
         }
+
+        return resultFiles;
     }
 
-    public async Task InterceptValidations(Func<Task> func)
+    public async Task<IPlainFile?> InterceptValidations(Func<Task<IPlainFile>> func)
     {
         try
         {
-            await func();
+            return await func();
         }
         catch (DomainException ex)
         {
@@ -44,6 +49,7 @@ public class UploadDispatcher : IUploadDispatcher
             {
                 _validations.Add(ex);
             }
+            return null;
         }
     }
 
@@ -57,5 +63,5 @@ public class UploadDispatcher : IUploadDispatcher
 
 public interface IUploadDispatcher : ITransient
 {
-    Task Dispatch(IEnumerable<EncodedFile> files);
+    Task<IEnumerable<IPlainFile>> Dispatch(IEnumerable<XmlEncodedFile> files);
 }

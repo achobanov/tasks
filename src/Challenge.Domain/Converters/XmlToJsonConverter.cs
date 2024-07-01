@@ -6,9 +6,9 @@ namespace Challenge.Domain.Converters;
 
 public class XmlToJsonConverter
 {
-    public static string Convert(PlainFile file)
+    public static string Convert(IPlainFile file)
     {
         var xmlDocument = XmlParser.Parse(file);
-        return JsonConvert.SerializeXmlNode(xmlDocument);
+        return JsonConvert.SerializeXmlNode(xmlDocument, Formatting.Indented);
     }
 }

@@ -6,7 +6,7 @@ namespace Challenge.Domain.Xml;
 
 public static class XmlParser
 {
-    public static XmlDocument Parse(PlainFile file)
+    public static XmlDocument Parse(IPlainFile file)
     {
         var document = new XmlDocument();
         try

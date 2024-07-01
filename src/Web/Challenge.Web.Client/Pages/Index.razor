@@ -1,11 +1,24 @@
-﻿@using Challenge.Web.Client.HTTP
+﻿@using Challenge.Domain.Files
+@using Challenge.Web.Client.Files
+@using Challenge.Web.Client.HTTP
 @using Challenge.Web.Client.Shared
+@using Challenge.Web.Client.Components;
 @using Microsoft.AspNetCore.Components.Forms;
 
 @page "/"
 
 <div class="container">
     <InputFile OnChange="Upload" multiple />
+
+    @foreach (var file in _uploadedFiles)
+    {
+        <Collapsible IsCollapsed="false">
+            <Header>@file.Name</Header>
+            <Content>
+                <pre>@file.Content</pre>
+            </Content>
+        </Collapsible>
+    }
 </div>
 
 @code {
@@ -13,13 +26,15 @@
     private FileUploadClient _client { get; set; } = default!;
     [Inject]
     private ISafe _safe { get; set; } = default!;
+    private IEnumerable<FileModel> _uploadedFiles = new List<FileModel>();
+
 
     private async Task Upload(InputFileChangeEventArgs args)
     {
         await _safe.Execute(async () =>
         {
             var fileTasks = args.GetMultipleFiles();
-            await _client.Upload(fileTasks);
+            _uploadedFiles = await _client.Upload(fileTasks);
         });
     }
 }

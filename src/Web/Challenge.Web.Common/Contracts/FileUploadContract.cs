@@ -2,4 +2,4 @@
 
 namespace Challenge.Web.Common.Contracts;
 
-public record FileUploadContract(IEnumerable<EncodedFile> Files);
+public record FileUploadContract(IEnumerable<XmlEncodedFile> Files);

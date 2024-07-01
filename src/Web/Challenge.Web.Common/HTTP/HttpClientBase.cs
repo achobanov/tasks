@@ -17,20 +17,20 @@ public abstract class HttpClientBase
         _notifier = notifier;
     }
 
-    protected async Task Post<T>(string endpoint, T payload, CancellationToken? cancellationToken = null)
+    protected async Task<string> Post<T>(string endpoint, T payload, CancellationToken? cancellationToken = null)
     {
         cancellationToken = cancellationToken ?? CancellationToken.None;
         var response = await client.PostAsJsonAsync(endpoint, payload, cancellationToken: cancellationToken.Value);
-        await HandleResponse(response);
+        return await HandleResponse(response);
     }
 
-    private async Task HandleResponse(HttpResponseMessage response)
+    private async Task<string> HandleResponse(HttpResponseMessage response)
     {
+        var contents = await response.Content.ReadAsStringAsync();
         if (response.IsSuccessStatusCode)
         {
-            return;
+            return contents;
         }
-        var contents = await response.Content.ReadAsStringAsync();
         if (response.StatusCode != HttpStatusCode.BadRequest)
         {
             throw new Exception("contents");

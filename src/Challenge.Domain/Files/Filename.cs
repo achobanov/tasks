@@ -50,6 +50,11 @@ public record Filename
     {
         return _filename ?? throw new Exception($"This is a bug: '{nameof(_filename)}' cannot be null");
     }
+
+    public static implicit operator string(Filename filename)
+    {
+        return filename.ToString();
+    }
 }
 
 public record JsonFilename : Filename
@@ -61,5 +66,10 @@ public record JsonFilename : Filename
     public override string ToString()
     {
         return base.ToString();
+    }
+
+    public static implicit operator string(JsonFilename filename)
+    {
+        return filename.ToString();
     }
 }

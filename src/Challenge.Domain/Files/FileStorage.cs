@@ -7,22 +7,22 @@ public class FileStorage : IFileStorage
 {
     private const string STORE_ROOT = "/c/tmp/challenge-ds";
 
-    public async Task CreateFile(Filename filename, string content)
+    public async Task CreateFile(IPlainFile file)
     {
         if (!Directory.Exists(STORE_ROOT))
         {
             Directory.CreateDirectory(STORE_ROOT);
         }
-        var path = Path.Combine(STORE_ROOT, filename.ToString());
+        var path = Path.Combine(STORE_ROOT, file.Name);
         if (File.Exists(path))
         {
-            throw new DomainException($"File '{filename}' already exists");
+            throw new DomainException($"File '{file.Name}' already exists");
         }
-        await File.WriteAllTextAsync(path, content);
+        await File.WriteAllTextAsync(path, file.Content);
     }
 }
 
 public interface IFileStorage : ITransient
 {
-    Task CreateFile(Filename path, string content);
+    Task CreateFile(IPlainFile file);
 }
