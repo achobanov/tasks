@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Xml;
 
 namespace Challenge.Common.JSON;
 
@@ -22,5 +23,10 @@ public static class JsonExtensions
     public static async Task<T> FromJson<T>(this Task<string> jsonTask)
     {
         return FromJson<T>(await jsonTask);
+    }
+
+    public static string ToJson(this XmlDocument xmlDocument)
+    {
+        return JsonConvert.SerializeXmlNode(xmlDocument, Newtonsoft.Json.Formatting.Indented);
     }
 }

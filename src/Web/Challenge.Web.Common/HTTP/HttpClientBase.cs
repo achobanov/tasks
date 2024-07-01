@@ -1,6 +1,6 @@
-﻿using Challenge.Domain.Core;
+﻿using Challenge.Common.JSON;
+using Challenge.Domain.Core;
 using Challenge.Web.Common.Contracts;
-using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -35,8 +35,7 @@ public abstract class HttpClientBase
         {
             throw new Exception("contents");
         }
-        var settings = new JsonSerializerSettings { ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor };
-        var aggregateValidations = JsonConvert.DeserializeObject<AggregateValidationContract>(contents, settings);
+        var aggregateValidations = contents.FromJson<AggregateValidationContract>();
         if (aggregateValidations != null)
         {
             aggregateValidations.Throw();
