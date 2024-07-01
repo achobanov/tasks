@@ -4,7 +4,7 @@
 {
     <div class="">
         <div class="toast-container position-absolute top-0 end-0 mt-5 pt-5 pe-2">
-            @foreach (var toast in this._toaster.GetToasts())
+            @foreach (var toast in GetToasts())
             {
                 var toastClass = this.GetToastClass(toast);
                 <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
@@ -12,7 +12,7 @@
                         <strong class="me-auto">@toast.Title</strong>
                         <small class="@toastClass">@toast.ElapsedTimeText</small>
                         <button type="button" class="btn-close btn-close-white" aria-label="Close"
-                                @onclick="() => this._toaster.ClearToast(toast)"></button>
+                                @onclick="() => RemoveToast(toast)"></button>
                     </div>
                     <div class="toast-body">@toast.Message</div>
                 </div>
@@ -24,17 +24,16 @@
 @code {
     [Inject]
     private Toaster _toaster { get; set; } = null!;
+    private object _lock = new();
 
     protected override void OnInitialized()
     {
         this._toaster.ToasterChanged += HandleToastChanged;
-        this._toaster.ToasterTimerElapsed += HandleToastChanged;
     }
 
     public void Dispose()
     {
         this._toaster.ToasterChanged -= HandleToastChanged;
-        this._toaster.ToasterTimerElapsed -= HandleToastChanged;
     }
 
     private void HandleToastChanged(object? sender, EventArgs e)
@@ -44,5 +43,21 @@
     {
         var colour = Enum.GetName(toast.Color)?.ToLower();
         return $"bg-{colour} text-white";
+    }
+
+    private IEnumerable<Toast> GetToasts()
+    {
+        lock (_lock)
+        {
+            return _toaster.GetToasts();
+        }
+    }
+
+    private void RemoveToast(Toast toast)
+    {
+        lock (_lock)
+        {
+            _toaster.ClearToast(toast);
+        }
     }
 }

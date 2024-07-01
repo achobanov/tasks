@@ -17,7 +17,6 @@ public class Toaster : IToaster, IDisposable
     }
 
     public event EventHandler? ToasterChanged;
-    public event EventHandler? ToasterTimerElapsed;
 
     public bool HasToasts => _toastCollection.HasToasts();
 
@@ -81,7 +80,7 @@ public class Toaster : IToaster, IDisposable
     private void HandleTimerElapsed(object? sender, ElapsedEventArgs e)
     {
         CheckBurnt();
-        ToasterTimerElapsed?.Invoke(this, EventArgs.Empty);
+        ToasterChanged?.Invoke(this, EventArgs.Empty);
     }
 }
 
