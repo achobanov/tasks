@@ -1,10 +1,7 @@
 ﻿using Challenge.Common;
-using Challenge.Domain.Converters;
-using Challenge.Domain.Files;
-using Challenge.Domain.Xml;
+using Challenge.Domain.Dispatchers;
 using Challenge.Web.Common.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
 using static Challenge.Common.Constants;
 
 namespace Challenge.Web.API.Controllers;
@@ -13,7 +10,7 @@ namespace Challenge.Web.API.Controllers;
 public class FileController : ControllerBase
 {
     private readonly INotifier _notifier;
-
+    private readonly IUploadDispatcher _uploadDispatcher;
     private List<string> _testFilenames = new List<string>
     {
         @"../../somefile.txt",
@@ -35,31 +32,16 @@ public class FileController : ControllerBase
         @"%cd%/file.one"
     };
 
-    public FileController(INotifier notifier)
+    public FileController(INotifier notifier, IUploadDispatcher uploadDispatcher)
     {
         _notifier = notifier;
+        _uploadDispatcher = uploadDispatcher;
     }
 
     [HttpPost(Endpoints.FILE_UPLOAD)]
-    public Task<IActionResult> Upload([FromBody] FileUploadContract request)
+    public async Task<IActionResult> Upload([FromBody] FileUploadContract request)
     {
-        foreach (var test in _testFilenames)
-        {
-            var filename = new JsonFilename(test);
-            ;
-        }
-
-        foreach (var file in request.Files)
-        {
-            var bytes = Convert.FromBase64String(file.Payload);
-            var encoding = Encoding.GetEncoding(file.EncodingName);
-            var contents = encoding.GetString(bytes);
-            var plainFile = file.Decode(_notifier);
-            var document = XmlProcessor.Parse(plainFile);
-            var json = XmlToJsonConverter.Convert(document);
-            var filename = new JsonFilename(file.Name);
-            ;
-        }
-        return Task.FromResult(Ok() as IActionResult);
+        await _uploadDispatcher.Dispatch(request.Files);
+        return Ok();
     }
 }

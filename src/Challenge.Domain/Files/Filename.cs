@@ -2,7 +2,7 @@
 
 namespace Challenge.Domain.Files;
 
-public readonly record struct Filename
+public record Filename
 {
     private const char DASH = '-';
     private const char DOT = '.';
@@ -52,17 +52,14 @@ public readonly record struct Filename
     }
 }
 
-public readonly record struct JsonFilename
+public record JsonFilename : Filename
 {
-    private readonly Filename _filename;
-
-    public JsonFilename(string name)
+    public JsonFilename(string name) : base(name, "json")
     {
-        _filename = new Filename(name, "json");
     }
 
     public override string ToString()
     {
-        return _filename.ToString();
+        return base.ToString();
     }
 }

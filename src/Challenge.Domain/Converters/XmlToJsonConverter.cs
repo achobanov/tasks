@@ -1,12 +1,14 @@
-﻿using Newtonsoft.Json;
-using System.Xml;
+﻿using Challenge.Domain.Files;
+using Challenge.Domain.Xml;
+using Newtonsoft.Json;
 
 namespace Challenge.Domain.Converters;
 
 public class XmlToJsonConverter
 {
-    public static string Convert(XmlDocument xmlDocument)
+    public static string Convert(PlainFile file)
     {
+        var xmlDocument = XmlParser.Parse(file);
         return JsonConvert.SerializeXmlNode(xmlDocument);
     }
 }

@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace Challenge.Domain.Xml;
 
-public static class XmlProcessor
+public static class XmlParser
 {
     public static XmlDocument Parse(PlainFile file)
     {
