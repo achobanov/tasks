@@ -2,14 +2,12 @@
 
 public class DomainAggregateException : Exception
 {
-    public DomainAggregateException(int successfulOperations, IEnumerable<DomainException> validations) : base()
+    public DomainAggregateException(string message, IEnumerable<DomainException> validations) : base(message)
     {
-        Message = $"Operation resulted in '{successfulOperations}' successes but raised '{validations.Count()}' validation errors";
         Validations = validations.ToArray();
     }
 
-    public new string Message { get; private set; }
-    public DomainException[] Validations { get; private set; }
+    public DomainException[] Validations { get; }
 
     public int SuccessCount => Validations.Length;
 }

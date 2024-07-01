@@ -50,7 +50,8 @@ public class UploadDispatcher : IUploadDispatcher
     private void AggregateValidations(int filesCount)
     {
         var successfulFileCount = filesCount - _validations.Count;
-        throw new DomainAggregateException(successfulFileCount, _validations);
+        var message = $"Uploaded '{successfulFileCount}' files successfully and raised '{_validations.Count()}' validation errors";
+        throw new DomainAggregateException(message, _validations);
     }
 }
 

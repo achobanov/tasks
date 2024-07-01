@@ -23,7 +23,7 @@ public class AggregateValidationContract
     public void Throw()
     {
         var validations = Validations.Select(x => new DomainException(x));
-        throw new DomainAggregateException(Count, validations);
+        throw new DomainAggregateException(Message, validations);
     }
 }
 
