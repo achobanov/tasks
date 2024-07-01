@@ -19,7 +19,9 @@ public class FileUploadClient : HttpClientBase
     public async Task Upload(IEnumerable<IBrowserFile> borwserFiles)
     {
         var fileTasks = borwserFiles.Select(_fileReader.Read);
-        var files = await Task.WhenAll(fileTasks);
+        var files = (await Task.WhenAll(fileTasks))
+            .Where(x => x.HasValue)
+            .Select(x => x!.Value);
 
         var contract = new FileUploadContract(files);
         await Post(Endpoints.FILE_UPLOAD, contract);
