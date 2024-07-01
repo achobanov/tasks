@@ -4,6 +4,6 @@ namespace Challenge.Common;
 
 public interface INotifier : ISingleton
 {
-    Task Error(string message, string? details);
-    Task Validation(string message, string? details);
+    Task Error(string message, string? details = null);
+    Task Validation(string message, string? details = null);
 }

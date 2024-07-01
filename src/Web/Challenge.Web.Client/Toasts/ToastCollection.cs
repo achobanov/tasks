@@ -1,8 +1,6 @@
-﻿using System.Collections;
+﻿namespace Challenge.Web.Client.Toasts;
 
-namespace Challenge.Web.Client.Toasts;
-
-public class ToastCollection : IEnumerable<Toast>
+public class ToastCollection
 {
     private readonly List<Toast> _toasts;
     private readonly object _lock = new();
@@ -50,20 +48,11 @@ public class ToastCollection : IEnumerable<Toast>
         return _toasts.Count > 0;
     }
 
-    public IEnumerator<Toast> GetEnumerator()
-    {
-        return Enumerate();
-    }
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return Enumerate();
-    }
-
-    private IEnumerator<Toast> Enumerate()
+    public List<Toast> ToList()
     {
         lock (_lock)
         {
-            return _toasts.GetEnumerator();
+            return _toasts.ToList();
         }
     }
 }

@@ -20,7 +20,7 @@ public class Logger : INotifier
     private string Format(string message, string? details)
     {
         var sb = new StringBuilder();
-        sb.AppendLine(message);
+        sb.AppendLine($"{DateTimeOffset.UtcNow}: {message}");
         if (details != null)
         {
             sb.AppendLine();

@@ -1,4 +1,6 @@
 ﻿using Challenge.Domain.Core;
+using Challenge.Web.Common.Contracts;
+using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -29,11 +31,17 @@ public abstract class HttpClientBase
             return;
         }
         var contents = await response.Content.ReadAsStringAsync();
-
-        if (response.StatusCode == HttpStatusCode.BadRequest)
+        if (response.StatusCode != HttpStatusCode.BadRequest)
         {
-            throw new DomainException(contents);
+            throw new Exception("contents");
         }
-        throw new Exception(contents);
+        var settings = new JsonSerializerSettings { ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor };
+        var aggregateValidations = JsonConvert.DeserializeObject<AggregateValidationContract>(contents, settings);
+        if (aggregateValidations != null)
+        {
+            aggregateValidations.Throw();
+        }
+
+        throw new DomainException(contents);
     }
 }

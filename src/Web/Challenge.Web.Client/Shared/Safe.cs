@@ -1,5 +1,4 @@
-﻿using Challenge.Common;
-using Challenge.Common.Injection;
+﻿using Challenge.Common.Injection;
 using Challenge.Domain.Core;
 using Challenge.Web.Client.Toasts;
 
@@ -22,12 +21,25 @@ public class Safe : ISafe
         }
         catch (DomainException validation)
         {
-            await _toaster.Validation(validation.Message, validation.StackTrace);
+            HandleValidation(validation);
+        }
+        catch (DomainAggregateException aggregate)
+        {
+            await _toaster.Validation(aggregate.Message, $"Validation errors: {aggregate.Validations.Count()}");
+            foreach (var validation in aggregate.Validations)
+            {
+                HandleValidation(validation, 20);
+            }
         }
         catch (Exception ex)
         {
             await _toaster.Error(ex.Message, ex.StackTrace);
         }
+    }
+
+    private void HandleValidation(DomainException validation, int time = 10)
+    {
+        _toaster.Validation(validation.Message, validation?.StackTrace);
     }
 }
 

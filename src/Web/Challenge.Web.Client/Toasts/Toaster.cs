@@ -51,13 +51,10 @@ public class Toaster : IToaster, IDisposable
 
     public void ClearToast(Toast toast)
     {
-        if (_toastCollection.Contains(toast))
+        _toastCollection.Remove(toast);
+        if (!CheckBurnt())
         {
-            _toastCollection.Remove(toast);
-            if (!CheckBurnt())
-            {
-                ToasterChanged?.Invoke(this, EventArgs.Empty);
-            }
+            ToasterChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
