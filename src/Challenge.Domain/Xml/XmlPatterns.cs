@@ -2,7 +2,7 @@
 
 namespace Challenge.Domain.Xml;
 
-public static partial class Patterns
+public static partial class XmlPatterns
 {
     private const string ENCODING_PATTERN = @"<\?xml\s+version=""[0-9]{1}.[0-9]{1}""\s+encoding=""(.*)""\s*\?>";
     [GeneratedRegex(ENCODING_PATTERN)]

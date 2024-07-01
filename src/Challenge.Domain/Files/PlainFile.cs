@@ -7,7 +7,7 @@ namespace Challenge.Domain.Files;
 
 public record struct PlainFile(string Name, string Content)
 {
-    private readonly Regex _encodingMatcher = Patterns.XmlEncoding();
+    private readonly Regex _encodingMatcher = XmlPatterns.XmlEncoding();
 
     public EncodedFile Encode(INotifier notifier)
     {
