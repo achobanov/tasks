@@ -30,17 +30,20 @@ public class FileUpload_WhenSizeTooLarge
     [Fact]
     public void ShouldNotStoreFile()
     {
-        var filname = "invalid-size";
-        var request = FileUploadHelper.BuildXmlFileUploadRequest($"{filname}.xml");
-        var response = FileUploadHelper.BuildExpectedResponse(request);
+        lock (Locker.Lock)
+        {
+            var filname = "invalid-size";
+            var request = FileUploadHelper.BuildXmlFileUploadRequest($"{filname}.xml");
+            var response = FileUploadHelper.BuildExpectedResponse(request);
 
-        MyMvc
-            .Controller<FileController>()
-            .Calling(x => x.Upload(request))
-            .ShouldThrow()
-            .Exception()
-            .OfType<AggregateException>(); 
+            MyMvc
+                .Controller<FileController>()
+                .Calling(x => x.Upload(request))
+                .ShouldThrow()
+                .Exception()
+                .OfType<AggregateException>();
 
-        Assert.False(FilesystemHelper.StorageFileExists(filname));
+            Assert.False(FilesystemHelper.StorageFileExists(filname));
+        }
     }
 }

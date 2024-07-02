@@ -27,16 +27,19 @@ public class FileUpload_WhenValidFileUpload
     [Fact]
     public void ShouldNotPersistFile()
     {
-        var filename = "valid";
-        var request = FileUploadHelper.BuildXmlFileUploadRequest($"{filename}.xml");
-        var response = FileUploadHelper.BuildExpectedResponse(request);
+        lock (Locker.Lock)
+        {
+            var filename = "valid";
+            var request = FileUploadHelper.BuildXmlFileUploadRequest($"{filename}.xml");
+            var response = FileUploadHelper.BuildExpectedResponse(request);
 
-        MyMvc
-            .Controller<FileController>()
-            .Calling(x => x.Upload(request))
-            .ShouldReturn()
-            .Ok(response);
+            MyMvc
+                .Controller<FileController>()
+                .Calling(x => x.Upload(request))
+                .ShouldReturn()
+                .Ok(response);
 
-        Assert.True(FilesystemHelper.StorageFileExists($"{filename}.json"));
+            Assert.True(FilesystemHelper.StorageFileExists($"{filename}.json"));
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace Challenge.Tests.Helpers;
 
 internal static class FilesystemHelper
 {
+
     public static string ReadTestInputFile(string filename)
     {
         return File.ReadAllText($"files/{filename}".ToRootPath());
@@ -11,14 +12,17 @@ internal static class FilesystemHelper
 
     public static void DeleteFiles(string path)
     {
-        if (!Directory.Exists(path))
+        lock (Locker.Lock)
         {
-            return;
-        }
-        var directoryInfo = new DirectoryInfo(path);
-        foreach (var file in directoryInfo.EnumerateFiles())
-        {
-            file.Delete();
+            if (!Directory.Exists(path))
+            {
+                return;
+            }
+            var directoryInfo = new DirectoryInfo(path);
+            foreach (var file in directoryInfo.EnumerateFiles())
+            {
+                file.Delete();
+            }
         }
     }
 

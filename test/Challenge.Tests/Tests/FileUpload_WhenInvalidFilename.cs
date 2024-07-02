@@ -31,21 +31,24 @@ public class FileUpload_WhenInvalidFilename
     [InlineData(@"%cd%/file.one")]
     public void ShouldSanitizeFilename(string filename)
     {
-        var request = FileUploadHelper.BuildXmlFileUploadRequestWithFilenames(filename);
-        var response = FileUploadHelper.BuildExpectedResponse(request);
+        lock (Locker.Lock)
+        {
+            var request = FileUploadHelper.BuildXmlFileUploadRequestWithFilenames(filename);
+            var response = FileUploadHelper.BuildExpectedResponse(request);
 
-        MyMvc
-            .Controller<FileController>()
-            .Calling(x => x.Upload(request))
-            .ShouldReturn()
-            .Ok(response);
+            MyMvc
+                .Controller<FileController>()
+                .Calling(x => x.Upload(request))
+                .ShouldReturn()
+                .Ok(response);
 
-        var stripped = Path.GetFileName(filename);
-        var dotIndex = stripped.IndexOf('.');
-        var expectedFinaname = dotIndex == -1
-            ? stripped + ".json"
-            : $"{stripped[..dotIndex]}.json";
+            var stripped = Path.GetFileName(filename);
+            var dotIndex = stripped.IndexOf('.');
+            var expectedFinaname = dotIndex == -1
+                ? stripped + ".json"
+                : $"{stripped[..dotIndex]}.json";
 
-        Assert.True(FilesystemHelper.StorageFileExists(expectedFinaname));
+            Assert.True(FilesystemHelper.StorageFileExists(expectedFinaname));
+        }
     }
 }
