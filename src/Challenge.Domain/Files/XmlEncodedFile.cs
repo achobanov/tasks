@@ -5,13 +5,10 @@ namespace Challenge.Domain.Files;
 
 public record struct XmlEncodedFile(string Name, string Content, string EncodingName) : IEncodedFile
 {
-    public IPlainFile Decode(INotifier notifier)
+    public IPlainFile Decode(INotifier notifier, bool validate = true)
     {
-        var bytes = Convert.FromBase64String(Content);
-        FilesizeValidator.Validate(bytes, Name);
-
         var encoding = EncodingProvider.GetEncodingOrUtf8(notifier, EncodingName);
-        var contents = encoding.GetString(bytes);
+        var contents = this.Base64Decode(encoding, validate);
         return new XmlPlainFile(Name, contents);
     }
 }
@@ -19,5 +16,5 @@ public record struct XmlEncodedFile(string Name, string Content, string Encoding
 public interface IEncodedFile : IFile
 {
     string EncodingName { get; }
-    IPlainFile Decode(INotifier notifier);
+    IPlainFile Decode(INotifier notifier, bool validate = true);
 }

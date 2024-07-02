@@ -10,13 +10,10 @@ public record struct XmlPlainFile(string Name, string Content) : IPlainFile
 {
     private readonly Regex _encodingMatcher = XmlPatterns.XmlEncoding();
 
-    public IEncodedFile Encode(INotifier notifier)
+    public IEncodedFile Encode(INotifier notifier, bool validate = true)
     {
         var encoding = MatchEncoding(notifier);
-        var bytes = encoding.GetBytes(Content);
-        FilesizeValidator.Validate(bytes, Name);
-
-        var base64Encoded = Convert.ToBase64String(bytes);
+        var base64Encoded = this.Base64Encode(encoding, validate);
         return new XmlEncodedFile(Name, base64Encoded, encoding.WebName);
     }
 
@@ -35,5 +32,5 @@ public record struct XmlPlainFile(string Name, string Content) : IPlainFile
 
 public interface IPlainFile : IFile
 {
-    IEncodedFile Encode(INotifier notifier);
+    IEncodedFile Encode(INotifier notifier, bool validate = true);
 }

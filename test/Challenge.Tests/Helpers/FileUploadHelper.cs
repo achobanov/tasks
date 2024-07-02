@@ -16,7 +16,7 @@ internal static class FileUploadHelper
         foreach (var file in files)
         {
             var xmlPlainFile = new XmlPlainFile(file, FilesystemHelper.ReadTestInputFile(file));
-            var xmlEncodedFile = (XmlEncodedFile)xmlPlainFile.Encode(new TestNotifier());
+            var xmlEncodedFile = (XmlEncodedFile)xmlPlainFile.Encode(new TestNotifier(), false);
             list.Add(xmlEncodedFile);
         }
         return new FileUploadContract(list);
@@ -26,7 +26,7 @@ internal static class FileUploadHelper
     {
         var xmlFiles = filenames
             .Select(x => new XmlPlainFile(x, PLAIN_XML))
-            .Select(x => (XmlEncodedFile)x.Encode(new TestNotifier()));
+            .Select(x => (XmlEncodedFile)x.Encode(new TestNotifier(), false));
         return new FileUploadContract(xmlFiles);
     }
 
@@ -37,7 +37,7 @@ internal static class FileUploadHelper
             var xmlPlainFile = xmlEncodedFile.Decode(new TestNotifier());
             var json = xmlPlainFile.Content.JsonFromXml();
             var jsonFile = new JsonFromXmlPlainFile(xmlPlainFile.Name, json);
-            yield return jsonFile.Encode(new TestNotifier());
+            yield return jsonFile.Encode(new TestNotifier(), false);
         }
     }
 }

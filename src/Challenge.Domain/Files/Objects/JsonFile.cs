@@ -17,9 +17,9 @@ public record struct JsonEncodedFile : IEncodedFile
     public string Content { get; }
     public string EncodingName { get; }
 
-    public IPlainFile Decode(INotifier notifier)
+    public IPlainFile Decode(INotifier notifier, bool validate = true)
     {
-        var decoted = this.Base64Decode(notifier);
+        var decoted = this.Base64Decode(notifier, validate);
         return new JsonFromXmlPlainFile(Name, decoted);
     }
 }
@@ -35,7 +35,7 @@ public record struct JsonFromXmlPlainFile : IPlainFile
     public string Name { get; }
     public string Content { get; }
 
-    public IEncodedFile Encode(INotifier notifier)
+    public IEncodedFile Encode(INotifier notifier, bool validate = false)
     {
         var encodingName = Content.FromJson<JsonMetaModel>().XmlRoot.Encoding;
         var encoding = EncodingProvider.GetEncodingOrUtf8(notifier, encodingName);
