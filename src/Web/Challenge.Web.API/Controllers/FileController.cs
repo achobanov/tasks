@@ -41,7 +41,8 @@ public class FileController : ControllerBase
     [HttpPost(Endpoints.FILE_UPLOAD)]
     public async Task<IActionResult> Upload([FromBody] FileUploadContract request)
     {
-        var result = await _uploadDispatcher.Dispatch(request.Files);
-        return Ok(result);
+        var files = await _uploadDispatcher.Dispatch(request.Files);
+        var encodedFiles = files.Select(x => x.Encode(_notifier));
+        return Ok(encodedFiles);
     }
 }

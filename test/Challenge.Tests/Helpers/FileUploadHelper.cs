@@ -31,16 +31,14 @@ internal static class FileUploadHelper
         return new FileUploadContract(xmlFiles);
     }
 
-    public static List<IPlainFile> BuildExpectedResponse(FileUploadContract request)
+    public static IEnumerable<IEncodedFile> BuildExpectedResponse(FileUploadContract request)
     {
-        var files = new List<IPlainFile>();
         foreach (var xmlEncodedFile in request.Files)
         {
             var xmlPlainFile = xmlEncodedFile.Decode(new TestNotifier());
             var json = xmlPlainFile.Content.JsonFromXml();
             var jsonFile = new JsonFromXmlPlainFile(xmlPlainFile.Name, json);
-            files.Add(jsonFile);
+            yield return jsonFile.Encode(new TestNotifier());
         }
-        return files;
     }
 }
