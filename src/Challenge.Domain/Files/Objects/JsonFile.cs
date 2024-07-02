@@ -4,8 +4,19 @@ using Newtonsoft.Json;
 
 namespace Challenge.Domain.Files.Objects;
 
-public record struct JsonEncodedFile(string Name, string Content, string EncodingName) : IEncodedFile
+public record struct JsonEncodedFile : IEncodedFile
 {
+    public JsonEncodedFile(string name, string content, string encodingName)
+    {
+        Name = new JsonFilename(name);
+        Content = content;
+        EncodingName = encodingName;
+    }
+
+    public string Name { get; }
+    public string Content { get; }
+    public string EncodingName { get; }
+
     public IPlainFile Decode(INotifier notifier)
     {
         var decoted = this.Base64Decode(notifier);
@@ -13,8 +24,17 @@ public record struct JsonEncodedFile(string Name, string Content, string Encodin
     }
 }
 
-public record struct JsonFromXmlPlainFile(string Name, string Content) : IPlainFile
+public record struct JsonFromXmlPlainFile : IPlainFile
 {
+    public JsonFromXmlPlainFile(string name, string content)
+    {
+        Name = new JsonFilename(name);
+        Content = content;
+    }
+
+    public string Name { get; }
+    public string Content { get; }
+
     public IEncodedFile Encode(INotifier notifier)
     {
         var encodingName = Content.FromJson<JsonMetaModel>().XmlRoot.Encoding;
