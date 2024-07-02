@@ -1,11 +1,16 @@
 ﻿using Challenge.Domain.Core;
+using Newtonsoft.Json;
 
 namespace Challenge.Web.Common.Contracts;
 
 public class AggregateValidationContract
 {
-    private AggregateValidationContract()
+    [JsonConstructor]
+    private AggregateValidationContract(string message, string[] validations, int count)
     {
+        Message = message;
+        Validations = validations;
+        Count = count;
     }
     public AggregateValidationContract(DomainAggregateException aggregateValidation)
     {
@@ -16,9 +21,9 @@ public class AggregateValidationContract
         Count = aggregateValidation.SuccessCount;
     }
 
-    public string Message { get; set; }
-    public string[] Validations { get; set; }
-    public int Count { get; set; }
+    public string Message { get; }
+    public string[] Validations { get; }
+    public int Count { get; }
 
     public void Throw()
     {
