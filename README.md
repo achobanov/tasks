@@ -12,7 +12,7 @@ This will spin up a container on port:8000. The server is Dotnet 8 ASP.NET Core 
 #### POST file/upload 
 ```json
 {
-    "files:
+    "files":
     [
         { 
             "name": "some-name",
