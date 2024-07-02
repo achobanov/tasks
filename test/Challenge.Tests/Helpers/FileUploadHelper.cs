@@ -3,7 +3,6 @@ using Challenge.Domain.Files;
 using Challenge.Domain.Files.Objects;
 using Challenge.Tests.Mocks;
 using Challenge.Web.Common.Contracts;
-using System.Xml;
 
 namespace Challenge.Tests.Helpers;
 

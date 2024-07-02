@@ -8,7 +8,7 @@ public class FileUpload_WhenValidFileUpload
 {
     public FileUpload_WhenValidFileUpload()
     {
-        SettingsHelper.ClearStoredFiles();
+        FilesystemHelper.DeleteFiles(SettingsHelper.GetStoragePath());
     }
 
     [Fact]
@@ -22,5 +22,21 @@ public class FileUpload_WhenValidFileUpload
             .Calling(x => x.Upload(request))
             .ShouldReturn()
             .Ok(response);
+    }
+
+    [Fact]
+    public void ShouldNotPersistFile()
+    {
+        var filename = "valid";
+        var request = FileUploadHelper.BuildXmlFileUploadRequest($"{filename}.xml");
+        var response = FileUploadHelper.BuildExpectedResponse(request);
+
+        MyMvc
+            .Controller<FileController>()
+            .Calling(x => x.Upload(request))
+            .ShouldReturn()
+            .Ok(response);
+
+        Assert.True(FilesystemHelper.StorageFileExists($"{filename}.json"));
     }
 }

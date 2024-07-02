@@ -5,18 +5,10 @@ namespace Challenge.Tests.Helpers;
 
 internal static class SettingsHelper
 {
-    public static void ClearStoredFiles()
+    public static string GetStoragePath()
     {
         var settingsContent = File.ReadAllText("testsettings.json".ToRootPath());
         var settings = settingsContent.FromJson<TestSettings>();
-        if (!Directory.Exists(settings.StorageConfiguration.Directory))
-        {
-            return;
-        }
-        var directoryInfo = new DirectoryInfo(settings.StorageConfiguration.Directory);
-        foreach (var file in directoryInfo.EnumerateFiles())
-        {
-            file.Delete();
-        }
+        return settings.StorageConfiguration.Directory;
     }
 }

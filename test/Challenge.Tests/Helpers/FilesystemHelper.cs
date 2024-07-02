@@ -8,4 +8,22 @@ internal static class FilesystemHelper
     {
         return File.ReadAllText($"files/{filename}".ToRootPath());
     }
+
+    public static void DeleteFiles(string path)
+    {
+        if (!Directory.Exists(path))
+        {
+            return;
+        }
+        var directoryInfo = new DirectoryInfo(path);
+        foreach (var file in directoryInfo.EnumerateFiles())
+        {
+            file.Delete();
+        }
+    }
+
+    public static bool StorageFileExists(string path)
+    {
+        return File.Exists(Path.Combine(SettingsHelper.GetStoragePath(), path));
+    }
 }
