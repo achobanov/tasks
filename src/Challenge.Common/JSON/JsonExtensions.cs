@@ -25,6 +25,13 @@ public static class JsonExtensions
         return FromJson<T>(await jsonTask);
     }
 
+    public static string JsonFromXml(this string xml)
+    {
+        var xmlDocument = new XmlDocument();
+        xmlDocument.LoadXml(xml);
+        return xmlDocument.ToJson();
+    }
+
     public static string ToJson(this XmlDocument xmlDocument)
     {
         return JsonConvert.SerializeXmlNode(xmlDocument, Newtonsoft.Json.Formatting.Indented);

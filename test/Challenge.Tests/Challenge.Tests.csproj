@@ -29,13 +29,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="files\valid.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="testsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="files\" />
   </ItemGroup>
 
 </Project>
