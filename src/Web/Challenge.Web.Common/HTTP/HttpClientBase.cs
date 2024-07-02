@@ -33,7 +33,7 @@ public abstract class HttpClientBase
         }
         if (response.StatusCode != HttpStatusCode.BadRequest)
         {
-            throw new Exception("contents");
+            throw new Exception(contents);
         }
         var aggregateValidations = contents.FromJson<AggregateValidationContract>();
         if (aggregateValidations != null)
