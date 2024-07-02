@@ -9,6 +9,10 @@ internal static class SettingsHelper
     {
         var settingsContent = File.ReadAllText("testsettings.json".ToRootPath());
         var settings = settingsContent.FromJson<TestSettings>();
+        if (!Directory.Exists(settings.StorageConfiguration.Directory))
+        {
+            return;
+        }
         var directoryInfo = new DirectoryInfo(settings.StorageConfiguration.Directory);
         foreach (var file in directoryInfo.EnumerateFiles())
         {
