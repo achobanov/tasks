@@ -4,15 +4,15 @@ using MyTested.AspNetCore.Mvc;
 
 namespace Challenge.Tests.Tests;
 
-public class FileUpload_Success
+public class FileUpload_WhenValidFileUpload
 {
-    public FileUpload_Success()
+    public FileUpload_WhenValidFileUpload()
     {
         SettingsHelper.ClearStoredFiles();
     }
 
     [Fact]
-    public void Test()
+    public void ShouldReturnResponse()
     {
         var request = FileUploadHelper.BuildXmlFileUploadRequest("valid.xml");
         var response = FileUploadHelper.BuildExpectedResponse(request);
