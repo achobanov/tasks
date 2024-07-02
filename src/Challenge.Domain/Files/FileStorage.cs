@@ -1,19 +1,26 @@
-﻿using Challenge.Common.Injection;
+﻿using Challenge.Common.Filesystem;
+using Challenge.Common.Injection;
 using Challenge.Domain.Core;
+using Microsoft.Extensions.Options;
 
 namespace Challenge.Domain.Files;
 
 public class FileStorage : IFileStorage
 {
-    private const string STORE_ROOT = "/c/tmp/challenge-ds";
+    private readonly string _path;
+
+    public FileStorage(IOptions<StorageConfiguration> options)
+    {
+        _path = options.Value.Directory.ToRootPath();
+    }
 
     public async Task CreateFile(IPlainFile file)
     {
-        if (!Directory.Exists(STORE_ROOT))
+        if (!Directory.Exists(_path))
         {
-            Directory.CreateDirectory(STORE_ROOT);
+            Directory.CreateDirectory(_path);
         }
-        var path = Path.Combine(STORE_ROOT, file.Name);
+        var path = Path.Combine(_path, file.Name);
         if (File.Exists(path))
         {
             throw new DomainException($"File '{file.Name}' already exists");
