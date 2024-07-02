@@ -2,6 +2,7 @@
 using Challenge.Common.Injection;
 using Challenge.Domain.Core;
 using Challenge.Domain.Files;
+using Challenge.Domain.Files.Objects;
 using Challenge.Web.Client.Toasts;
 using Microsoft.AspNetCore.Components.Forms;
 

@@ -1,7 +1,7 @@
 ﻿using Challenge.Common;
 using Challenge.Domain.Files.Abstractions;
 
-namespace Challenge.Domain.Files;
+namespace Challenge.Domain.Files.Objects;
 
 public record struct XmlEncodedFile(string Name, string Content, string EncodingName) : IEncodedFile
 {
@@ -11,10 +11,4 @@ public record struct XmlEncodedFile(string Name, string Content, string Encoding
         var contents = this.Base64Decode(encoding, validate);
         return new XmlPlainFile(Name, contents);
     }
-}
-
-public interface IEncodedFile : IFile
-{
-    string EncodingName { get; }
-    IPlainFile Decode(INotifier notifier, bool validate = true);
 }

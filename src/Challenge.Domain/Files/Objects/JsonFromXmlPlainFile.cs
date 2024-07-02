@@ -1,28 +1,9 @@
-﻿using Challenge.Common;
-using Challenge.Common.JSON;
+﻿using Challenge.Common.JSON;
+using Challenge.Common;
 using Newtonsoft.Json;
+using Challenge.Domain.Files.Abstractions;
 
 namespace Challenge.Domain.Files.Objects;
-
-public record struct JsonEncodedFile : IEncodedFile
-{
-    public JsonEncodedFile(string name, string content, string encodingName)
-    {
-        Name = new JsonFilename(name);
-        Content = content;
-        EncodingName = encodingName;
-    }
-
-    public string Name { get; }
-    public string Content { get; }
-    public string EncodingName { get; }
-
-    public IPlainFile Decode(INotifier notifier, bool validate = true)
-    {
-        var decoted = this.Base64Decode(notifier, validate);
-        return new JsonFromXmlPlainFile(Name, decoted);
-    }
-}
 
 public record struct JsonFromXmlPlainFile : IPlainFile
 {

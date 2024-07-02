@@ -1,5 +1,5 @@
 ﻿using Challenge.Common;
-using Challenge.Domain.Files;
+using Challenge.Domain.Files.Abstractions;
 
 namespace Challenge.Tests.Models;
 

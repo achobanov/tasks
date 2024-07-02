@@ -1,5 +1,5 @@
 ﻿using Challenge.Domain.Core;
-using Challenge.Domain.Files;
+using Challenge.Domain.Files.Abstractions;
 using System.Xml;
 
 namespace Challenge.Domain.Xml;

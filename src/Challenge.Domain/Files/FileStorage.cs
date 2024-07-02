@@ -1,6 +1,7 @@
 ﻿using Challenge.Common.Filesystem;
 using Challenge.Common.Injection;
 using Challenge.Domain.Core;
+using Challenge.Domain.Files.Abstractions;
 using Microsoft.Extensions.Options;
 
 namespace Challenge.Domain.Files;

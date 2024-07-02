@@ -1,5 +1,7 @@
 ﻿using Challenge.Common;
 using Challenge.Domain.Core;
+using Challenge.Domain.Files.Abstractions;
+using Challenge.Domain.Files.Objects;
 using System.Text;
 
 namespace Challenge.Domain.Files;

@@ -1,4 +1,4 @@
-﻿using Challenge.Domain.Files;
+﻿using Challenge.Domain.Files.Objects;
 
 namespace Challenge.Web.Common.Contracts;
 

@@ -4,7 +4,7 @@ using Challenge.Domain.Xml;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Challenge.Domain.Files;
+namespace Challenge.Domain.Files.Objects;
 
 public record struct XmlPlainFile(string Name, string Content) : IPlainFile
 {
@@ -28,9 +28,4 @@ public record struct XmlPlainFile(string Name, string Content) : IPlainFile
         var encodingName = match.Groups[1].Value;
         return EncodingProvider.GetEncodingOrUtf8(notifier, encodingName);
     }
-}
-
-public interface IPlainFile : IFile
-{
-    IEncodedFile Encode(INotifier notifier, bool validate = true);
 }

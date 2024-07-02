@@ -1,6 +1,6 @@
 ﻿using Challenge.Domain.Core;
 
-namespace Challenge.Domain.Files;
+namespace Challenge.Domain.Files.Objects;
 
 public record Filename
 {

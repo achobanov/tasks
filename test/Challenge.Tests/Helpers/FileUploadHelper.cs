@@ -1,5 +1,6 @@
 ﻿using Challenge.Common.JSON;
 using Challenge.Domain.Files;
+using Challenge.Domain.Files.Abstractions;
 using Challenge.Domain.Files.Objects;
 using Challenge.Tests.Mocks;
 using Challenge.Web.Common.Contracts;

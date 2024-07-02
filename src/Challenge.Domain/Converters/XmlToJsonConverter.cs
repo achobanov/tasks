@@ -1,5 +1,5 @@
 ﻿using Challenge.Common.JSON;
-using Challenge.Domain.Files;
+using Challenge.Domain.Files.Abstractions;
 using Challenge.Domain.Xml;
 
 namespace Challenge.Domain.Converters;

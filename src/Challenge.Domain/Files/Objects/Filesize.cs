@@ -1,6 +1,6 @@
 ﻿using Challenge.Common;
 
-namespace Challenge.Domain.Files;
+namespace Challenge.Domain.Files.Objects;
 
 public struct Filesize
 {

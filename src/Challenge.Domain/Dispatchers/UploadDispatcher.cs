@@ -1,6 +1,7 @@
 ﻿using Challenge.Common.Injection;
 using Challenge.Domain.Core;
-using Challenge.Domain.Files;
+using Challenge.Domain.Files.Abstractions;
+using Challenge.Domain.Files.Objects;
 using Challenge.Domain.Processors;
 
 namespace Challenge.Domain.Dispatchers;
