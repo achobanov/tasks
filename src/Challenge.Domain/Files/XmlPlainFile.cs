@@ -25,7 +25,7 @@ public record struct XmlPlainFile(string Name, string Content) : IPlainFile
         var match = _encodingMatcher.Match(Content);
         if (!match.Success)
         {
-            notifier.Validation("Missing encoding", "Defaulting to UTF8");
+            notifier.Information("Missing encoding: defaulting to UTF8");
             return Encoding.UTF8;
         }
         var encodingName = match.Groups[1].Value;

@@ -26,6 +26,12 @@ public class Toaster : IToaster, IDisposable
         return _toastCollection.ToList();
     }
 
+    public Task Information(string message)
+    {
+        Add("Information", message, UiColor.Success);
+        return Task.CompletedTask;
+    }
+
     public Task Error(string message, string? _)
     {
         Add("Unhandled error", message, UiColor.Danger);

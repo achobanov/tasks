@@ -9,6 +9,11 @@ internal class TestNotifier : INotifier
         return Task.CompletedTask;
     }
 
+    public Task Information(string message)
+    {
+        return Task.CompletedTask;
+    }
+
     public Task Validation(string message, string? details = null)
     {
         return Task.CompletedTask;

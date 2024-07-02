@@ -13,7 +13,7 @@ public static class EncodingProvider
         }
         catch (ArgumentException)
         {
-            notifier.Validation("Unsupported encoding", $"Encoding '{encodingName}' is not supported. Defaulting to UTF8");
+            notifier.Information($"Encoding '{encodingName}' is not supported. Defaulting to UTF8");
             return Encoding.UTF8;
         }
     }
