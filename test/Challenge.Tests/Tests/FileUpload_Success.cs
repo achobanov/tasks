@@ -1,11 +1,10 @@
-﻿using Challenge.Domain.Files;
-using Challenge.Domain.Files.Abstractions;
+﻿using Challenge.Common.Filesystem;
+using Challenge.Common.JSON;
+using Challenge.Domain.Files;
 using Challenge.Domain.Files.Objects;
-using Challenge.Tests.Models;
 using Challenge.Web.API.Controllers;
 using Challenge.Web.API.Logging;
 using Challenge.Web.Common.Contracts;
-using Moq;
 using MyTested.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Xml;
@@ -14,6 +13,17 @@ namespace Challenge.Tests.Tests;
 
 public class FileUpload_Success
 {
+    public FileUpload_Success()
+    {
+        var settingsContent = File.ReadAllText("testsettings.json".ToRootPath());
+        var settings = settingsContent.FromJson<TestSettings>();
+        var directoryInfo = new DirectoryInfo(settings.StorageConfiguration.Directory);
+        foreach (var file in directoryInfo.EnumerateFiles())
+        {
+            file.Delete();
+        }
+    }
+
     [Fact]
     public void Test()
     {
