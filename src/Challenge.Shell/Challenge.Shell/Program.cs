@@ -1,1 +1,4 @@
-﻿Console.WriteLine("Hello, World!");
+﻿using Challenge.Shell;
+
+var @interface = new Interface(new Shell());
+@interface.Start();

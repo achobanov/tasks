@@ -1,41 +1,53 @@
-﻿using Challenge.Common;
-using Challenge.Domain.Abstractions;
+﻿using Challenge.Domain.Abstractions;
 using Challenge.Domain.Core;
+using Challenge.Domain.Operations;
 
 namespace Challenge.Domain;
 
-public class Wallet
+public class Wallet : IFunds, IWallet
 {
+    private readonly Notifier _notifier;
     private decimal _ballance = 0;
 
-    public Event<string> NotificationEvent { get; } = new();
+    public OperationsCollection Operations { get; } = [];
 
-    public decimal Deposit(decimal amount)
+    public Wallet()
     {
-        return _ballance += amount;
+        _notifier = new Notifier();
+        Operations.Add(nameof(Deposit).ToLower(), new FundsOperation(nameof(Deposit), Deposit));
     }
 
-    public decimal Withdraw(decimal amount)
+    public void Deposit(decimal amount)
+    {
+        _ballance += amount;
+        _notifier.Notify($"Successful deposit. Your current ballance is '{_ballance}'");
+    }
+
+    public void Withdraw(decimal amount)
     {
         if (amount > _ballance)
         {
             throw new DomainException($"Insufficient funds: '{_ballance}'. Cannot withdraw '{amount}'");
         }
-        return _ballance -= amount;
+        _ballance -= amount;
+        _notifier.Notify($"Successful withdraw. Your current ballance is '{_ballance}'");
     }
 
-    public decimal ApplyDelta(IBetResult result)
+    public void ApplyDelta(decimal delta)
     {
-        _ballance += result.Delta;
+        _ballance += delta;
         if (_ballance < 0)
         {
             var minimumAmount = Math.Abs(_ballance) + 1;
-            NotificationEvent.Emmit(
+            _notifier.Notify(
                 $"Unfortunatelly your ballance is now negative '{_ballance}'. " +
                 $"We're sure you'll get a better luck next time, however we'll have to ask you to deposit funds" +
-                $"Untill you are on a positibe budget. Minimum amount '{minimumAmount}'. Do you wish to deposit now?");
+                $"Untill you are on a positibe ballance. Minimum amount '{minimumAmount}'");
         }
-        return _ballance;
+        else
+        {
+            _notifier.Notify($"Current ballance is '{_ballance}'");
+        }
     }
 
     public void AddWinnings(decimal amount)

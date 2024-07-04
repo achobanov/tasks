@@ -8,9 +8,9 @@ public class Treshold : IComparable<Treshold>
     private readonly Percent _treshold;
     private readonly BetOutcome _betOutcome;
 
-    public Treshold(int percent, BetOutcome betOutcome)
+    public Treshold(Percent percent, BetOutcome betOutcome)
     {
-        _treshold = new Percent(percent);
+        _treshold = percent;
         _betOutcome = betOutcome;
     }
 
@@ -42,5 +42,10 @@ public class Treshold : IComparable<Treshold>
     public static bool operator <=(Percent percent, Treshold playTreshold)
     {
         return percent <= playTreshold._treshold;
+    }
+
+    public override string ToString()
+    {
+        return $"{_treshold}: {_betOutcome}";
     }
 }

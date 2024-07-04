@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Shell", "Challenge.Shell\Challenge.Shell.csproj", "{1BF65695-C39D-4BA0-8EBC-39583361E8A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Shell", "Challenge.Shell\Challenge.Shell.csproj", "{1BF65695-C39D-4BA0-8EBC-39583361E8A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Domain", "..\Challenge.Domain\Challenge.Domain.csproj", "{9985ACA8-53C9-42E4-AE2A-CE60327061CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Domain", "..\Challenge.Domain\Challenge.Domain.csproj", "{9985ACA8-53C9-42E4-AE2A-CE60327061CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Common", "..\Challenge.Common\Challenge.Common.csproj", "{27EC1750-D6DA-4CF7-A027-5BFD24C6A271}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Common", "..\Challenge.Common\Challenge.Common.csproj", "{27EC1750-D6DA-4CF7-A027-5BFD24C6A271}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_config", "_config", "{6442F7C7-0570-48DE-9690-336A66256198}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\.editorconfig = ..\..\.editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,7 +10,7 @@ namespace Challenge.Domain.Chance;
     {
         var minInteger = (int)min * 100;
         var maxInteger = (int)max * 100 + 1;
-        var result = _random.Next(minInteger, maxInteger);
+        var result = (float)_random.Next(minInteger, maxInteger);
         return result / 100;
     }
 

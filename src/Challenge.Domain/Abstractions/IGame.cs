@@ -1,6 +1,8 @@
 ﻿namespace Challenge.Domain.Abstractions;
 
-public interface IGame
+public interface IGame : IOperable
 {
-    IBetResult Play(decimal bet);
+    string Name { get; }
+    void Activate(IFunds funds);
+    void Deactivate();
 }

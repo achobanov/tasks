@@ -4,14 +4,22 @@ namespace Challenge.Domain.Core;
 
 public class TresholdCollection : List<Treshold>
 {
-    public TresholdCollection(IEnumerable<Treshold> tresholds)
+    private const int FULL = 100;
+    private const int SPENT = 0;
+    private Percent _currentThreshold = new(SPENT);
+
+    public TresholdCollection(IEnumerable<BetOutcome> outcomes)
     {
-        var tresholdSum = tresholds.Aggregate(new Percent(0), (sum, x) => sum + x);
-        if (tresholdSum != new Percent(100))
+        foreach (var outcome in outcomes)
         {
-            throw new ApplicationException($"Invalid PlayTreshold sum '{tresholdSum}'. Game tresholds must always sum to a 100%");
+            var treshold = new Treshold(_currentThreshold, outcome);
+            this.Add(treshold);
+            _currentThreshold += outcome.Percent;
         }
-        this.AddRange(tresholds.Order());
+        if (_currentThreshold != new Percent(FULL))
+        {
+            throw new ApplicationException($"Invalid game configuration. Tresholds must sum to exactly 100%");
+        }
     }
 
     internal Treshold Match(Percent playValue)

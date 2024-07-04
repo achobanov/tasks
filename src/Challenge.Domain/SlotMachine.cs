@@ -1,6 +1,7 @@
 ﻿using Challenge.Domain.Abstractions;
 using Challenge.Domain.Chance;
 using Challenge.Domain.Core;
+using Challenge.Domain.Operations;
 
 namespace Challenge.Domain;
 
@@ -10,24 +11,56 @@ public class SlotMachine : IGame
     private readonly decimal _maxBet;
     private readonly IRandomProvider _randomProvider;
     private TresholdCollection _thresholds;
+    private Notifier _notifier;
+    private IFunds? _funds;
 
-    public SlotMachine(IRandomProvider randomProvider, decimal minBet, decimal maxBet, params Treshold[] tresholds)
+    public SlotMachine(IRandomProvider randomProvider, decimal minBet, decimal maxBet, params BetOutcome[] outcomes)
     {
         _minBet = minBet;
         _maxBet = maxBet;
         _randomProvider = randomProvider;
-        _thresholds = new TresholdCollection(tresholds);
+        _thresholds = new TresholdCollection(outcomes);
+        _notifier = new Notifier();
+
+        Operations.Add("bet", new FundsOperation(nameof(Bet), Bet));
     }
 
-    public IBetResult Play(decimal bet)
+    public string Name => nameof(SlotMachine);
+    public OperationsCollection Operations { get; } = [];
+
+    public void Activate(IFunds funds)
     {
+        _funds = funds;
+    }
+
+    public void Deactivate()
+    {
+        _funds = null;
+    }
+
+    private void Bet(decimal bet)
+    {
+        if (_funds == null)
+        {
+            throw new ApplicationException($"{Name} is not active");
+        }
+
         if (bet < _minBet || bet > _maxBet)
         {
-            return new InvalidBetResult($"Invalid bet '{bet}' (min: '{_minBet}', max: '{_maxBet}')");
+            _notifier.Notify($"Invalid bet '{bet}' (min: '{_minBet}', max: '{_maxBet}')");
+            return;
         }
 
         var play = _randomProvider.GetPercent();
         var treshold = _thresholds.Match(play);
-        return treshold.GetResult(bet);
+        var result = treshold.GetResult(bet);
+        
+        _funds.ApplyDelta(result.Delta);
+        _notifier.Notify(result.Message);
+    }
+
+    public override string ToString()
+    {
+        return Name;
     }
 }

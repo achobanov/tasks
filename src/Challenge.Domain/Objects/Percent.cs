@@ -23,6 +23,11 @@ public readonly record struct Percent : IComparable<Percent>
         return new Percent(a._value + b._value);
     }
 
+    public static Percent operator -(Percent a, Percent b)
+    {
+        return new Percent(a._value - b._value);
+    }
+
     public static bool operator >=(Percent a, Percent b)
     {
         return a._value >= b._value;
@@ -30,5 +35,10 @@ public readonly record struct Percent : IComparable<Percent>
     public static bool operator <=(Percent a, Percent b)
     {
         return a._value <= b._value;
+    }
+
+    public override string ToString()
+    {
+        return _value.ToString();
     }
 }
