@@ -1,4 +1,5 @@
 ﻿using Challenge.Domain.Abstractions;
+using Challenge.Domain.Chance;
 using Challenge.Domain.Objects;
 
 namespace Challenge.Domain.Core;
@@ -34,21 +35,30 @@ public class LossOutcome : BetOutcome
 
 public class WinOutcome : BetOutcome
 {
-    private readonly decimal _modifier;
+    private readonly IRandomProvider _randomProvider;
+    private readonly float _minModifier;
+    private readonly float _maxModifier;
 
-    public WinOutcome(int chance, float modifier) : base(chance)
+    public WinOutcome(int chance, IRandomProvider randomProvider, float minModifier, float maxModifier) : base(chance)
     {
-        _modifier = (decimal)modifier;
+        _randomProvider = randomProvider;
+        _minModifier = minModifier;
+        _maxModifier = maxModifier;
     }
 
     public override IBetResult ToResult(decimal bet)
     {
-        var delta = bet * _modifier - bet;
+        var delta = bet * GetModifier() - bet;
         return new BetResult(delta, "Congratulations");
     }
 
     public override string ToString()
     {
-        return $"Win {_modifier}";
+        return $"Win";
+    }
+
+    private decimal GetModifier()
+    {
+        return (decimal)_randomProvider.GetFloat(_minModifier, _maxModifier);
     }
 }

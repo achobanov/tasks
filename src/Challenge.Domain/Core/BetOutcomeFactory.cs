@@ -18,7 +18,6 @@ public class BetOutcomeFactory
 
     public WinOutcome Win(int percentToOccur, float minModifier, float maxModifier)
     {
-        var modifier = _randomProvider.GetFloat(minModifier, maxModifier);
-        return new WinOutcome(percentToOccur, modifier);
+        return new WinOutcome(percentToOccur, _randomProvider, minModifier, maxModifier);
     }
 }
