@@ -12,9 +12,9 @@ public class TresholdCollection : List<Treshold>
     {
         foreach (var outcome in outcomes)
         {
+            _currentThreshold -= outcome.Percent;
             var treshold = new Treshold(_currentThreshold, outcome);
             this.Add(treshold);
-            _currentThreshold += outcome.Percent;
         }
         if (_currentThreshold != new Percent(FULL))
         {
