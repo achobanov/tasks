@@ -1,6 +1,8 @@
 ﻿using Challenge.Common;
+using Challenge.Domain.Core;
 using Challenge.Domain.Dispatchers;
 using Challenge.Domain.Files;
+using Challenge.Domain.Files.Abstractions;
 using Challenge.Web.Common.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using static Challenge.Common.Constants;
@@ -35,5 +37,12 @@ public class FileController : ControllerBase
         var plainFiles = await _fileStorage.GetFiles();
         var encodedFiles = plainFiles.Select(x => x.Encode(_notifier));
         return Ok(encodedFiles);
+    }
+
+    [HttpDelete(Endpoints.FILE_UPLOAD)]
+    public async Task<IActionResult> Delete([FromQuery] string filename)
+    {
+        await _fileStorage.Delete(filename);
+        return Ok("ok");
     }
 }

@@ -43,4 +43,10 @@ public class FileUploadClient : HttpClientBase
             .Select(x => new FileModel(x.Name, x.Content));
         return decodedFiles;
     }
+
+    public async Task Delete(string name)
+    {
+        var query = new Dictionary<string, string> { { "filename", name } };
+        await Delete(Endpoints.FILE_UPLOAD, query);
+    }
 }

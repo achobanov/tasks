@@ -20,7 +20,7 @@ public class FileStorage : IFileStorage
     {
         CreateDirectoryIfNotExists();
 
-        var path = Path.Combine(_path, file.Name);
+        var path = GetFilePath(file.Name);
         if (File.Exists(path))
         {
             throw new DomainException($"File '{file.Name}' already exists");
@@ -46,12 +46,28 @@ public class FileStorage : IFileStorage
         return files;
     }
 
-    public void CreateDirectoryIfNotExists()
+    public Task Delete(string name)
+    {
+        var path = GetFilePath(name);
+        if (!File.Exists(path))
+        {
+            throw new DomainException($"File '{name}' does not exist");
+        }
+        File.Delete(path);
+        return Task.CompletedTask;
+    }
+
+    private void CreateDirectoryIfNotExists()
     {
         if (!Directory.Exists(_path))
         {
             Directory.CreateDirectory(_path);
         }
+    }
+
+    private string GetFilePath(string filename)
+    {
+        return Path.Combine(_path, filename);
     }
 }
 
@@ -59,4 +75,5 @@ public interface IFileStorage : ITransient
 {
     Task CreateFile(IPlainFile file);
     Task<IEnumerable<IPlainFile>> GetFiles();
+    Task Delete(string name);
 }

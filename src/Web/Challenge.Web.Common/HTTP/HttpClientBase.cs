@@ -1,6 +1,7 @@
 ﻿using Challenge.Common.JSON;
 using Challenge.Domain.Core;
 using Challenge.Web.Common.Contracts;
+using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -24,10 +25,17 @@ public abstract class HttpClientBase
         return await HandleResponse<string>(response);
     }
 
-    protected async Task<T> Get<T>(string endpoint,  CancellationToken? cancellationToken = null)
+    protected async Task<T> Get<T>(string endpoint, CancellationToken? cancellationToken = null)
     {
         var response = await _client.GetAsync(endpoint);
         return await HandleResponse<T>(response);
+    }
+
+    protected async Task Delete(string endpoint, Dictionary<string, string> query, CancellationToken? cancellationToken = null)
+    {
+        var queryString = QueryString.Create(query);
+        var response = await _client.DeleteAsync(endpoint + queryString.ToString());
+        await HandleResponse<string>(response);
     }
 
     private async Task<T> HandleResponse<T>(HttpResponseMessage response)

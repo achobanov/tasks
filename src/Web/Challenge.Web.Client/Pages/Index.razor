@@ -13,7 +13,12 @@
     @foreach (var file in _uploadedFiles)
     {
         <Collapsible IsCollapsed="true">
-            <Header>@file.Name</Header>
+            <Header>
+                <div >
+                    <p>@file.Name</p>
+                    <button @onclick="() => Delete(file.Name)">Delete</button>
+                </div>
+            </Header>
             <Content>
                 <pre>@file.Content</pre>
             </Content>
@@ -40,6 +45,14 @@
         {
             var fileTasks = args.GetMultipleFiles();
             _uploadedFiles = await _client.Upload(fileTasks);
+        });
+    }
+
+    private async Task Delete(string name)
+    {
+        await _safe.Execute(async () =>
+        {
+            await _client.Delete(name);
         });
     }
 }
