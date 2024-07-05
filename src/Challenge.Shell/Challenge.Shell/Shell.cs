@@ -1,5 +1,6 @@
 ﻿using Challenge.Domain;
 using Challenge.Shell.Abstractions;
+using Challenge.Shell.ConsoleProvider;
 
 namespace Challenge.Shell;
 
@@ -12,7 +13,7 @@ public class Shell : IShell, IDisposable
         _subscriptionId = Notifier.Event.Subscribe(Print);
     }
 
-    public (string command, string? arguments) ReadCommand()
+    public ICommand ReadCommand()
     {
         Console.WriteLine("What are you up to?");
         var input = Console.ReadLine();
@@ -21,7 +22,7 @@ public class Shell : IShell, IDisposable
             Print("Invalid command");
             input = Console.ReadLine();
         }
-        return Parse(input);
+        return new ConsoleCommand(input);
     }
 
     public void Print(string message)
@@ -32,17 +33,5 @@ public class Shell : IShell, IDisposable
     public void Dispose()
     {
         Notifier.Event.Unsubscribe(_subscriptionId);
-    }
-
-    private (string command, string? arguments) Parse(string input)
-    {
-        var separator = input.IndexOf(' ');
-        if (separator == -1)
-        {
-            return (input, null);
-        }
-        var command = input[..separator];
-        var arguments = input[++separator..];
-        return (command, arguments);
     }
 }

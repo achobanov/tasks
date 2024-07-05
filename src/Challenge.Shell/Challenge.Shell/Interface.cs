@@ -4,7 +4,6 @@ using Challenge.Domain.Chance;
 using Challenge.Domain.Core;
 using Challenge.Domain.Operations;
 using Challenge.Shell.Abstractions;
-using System.Diagnostics;
 using System.Text;
 
 namespace Challenge.Shell;
@@ -35,13 +34,13 @@ public class Interface
 
     public void ProcessCommand()
     {
-        var (command, arguments) = _shell.ReadCommand();
-        if (!_operations.ContainsKey(command))
+        var command = _shell.ReadCommand();
+        if (!_operations.ContainsKey(command.Name))
         {
             RenderHelp();
             return;
         }
-        _operations[command].Execute(arguments);
+        _operations[command.Name].Execute(command.Arguments);
     }
 
     private void RenderHelp()
