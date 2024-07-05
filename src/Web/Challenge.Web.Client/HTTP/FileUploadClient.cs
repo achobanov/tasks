@@ -34,4 +34,13 @@ public class FileUploadClient : HttpClientBase
             .Select(x => x.Decode(_toaster))
             .Select(x => new FileModel(x.Name, x.Content));
     }
+
+    public async Task<IEnumerable<FileModel>> GetFiles()
+    {
+        var encodedFiles = await Get<IEnumerable<JsonEncodedFile>>(Endpoints.FILE_UPLOAD);
+        var decodedFiles = encodedFiles
+            .Select(x => x.Decode(_toaster))
+            .Select(x => new FileModel(x.Name, x.Content));
+        return decodedFiles;
+    }
 }

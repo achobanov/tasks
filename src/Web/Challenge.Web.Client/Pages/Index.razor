@@ -29,6 +29,11 @@
     private IEnumerable<FileModel> _uploadedFiles = new List<FileModel>();
 
 
+    protected override async Task OnInitializedAsync()
+    {
+        _uploadedFiles = await _client.GetFiles();
+    }
+
     private async Task Upload(InputFileChangeEventArgs args)
     {
         await _safe.Execute(async () =>
