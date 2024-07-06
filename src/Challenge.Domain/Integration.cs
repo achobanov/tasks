@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Challenge.Domain;
 
-public class Interface
+public class Integration
 {
     private readonly IShell _shell;
     private readonly Wallet _wallet;
     private OperationsCollection _operations = [];
     private GameCollection _games = [];
 
-    public Interface(IShell shell)
+    public Integration(IShell shell)
     {
         _shell = shell;
         _wallet = new Wallet();
