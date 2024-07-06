@@ -1,4 +1,5 @@
 ﻿using Challenge.Domain.Abstractions;
+using Challenge.Domain.Core;
 using Challenge.Domain.Operations;
 using System.Text;
 

@@ -1,6 +1,6 @@
 ﻿using Challenge.Common;
 
-namespace Challenge.Domain;
+namespace Challenge.Domain.Core;
 
 public class Notifier
 {

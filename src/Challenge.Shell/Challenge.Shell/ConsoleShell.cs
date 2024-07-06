@@ -1,5 +1,5 @@
-﻿using Challenge.Domain;
-using Challenge.Domain.Abstractions;
+﻿using Challenge.Domain.Abstractions;
+using Challenge.Domain.Core;
 
 namespace Challenge.Console;
 
