@@ -1,4 +1,5 @@
 ﻿using Challenge.Domain.Abstractions;
+using Challenge.Domain.Core;
 using Challenge.Domain.Objects;
 using Challenge.Domain.Operations;
 using Challenge.Domain.Services;
@@ -48,8 +49,7 @@ public class SlotMachine : IGame
 
         if (bet < _minBet || bet > _maxBet)
         {
-            _notifier.Notify($"Invalid bet '{bet}' (min: '{_minBet}', max: '{_maxBet}')");
-            return;
+            throw new DomainException($"Invalid bet '{bet}' (min: '{_minBet}', max: '{_maxBet}')");
         }
 
         var play = _randomProvider.GetPercent();
