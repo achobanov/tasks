@@ -1,2 +1,2 @@
 # tasks
-A sample Tasks web application using Blazor client and an API shipped in docker. 
+My crack at the challge for a simle Slot machine-like game intregration within a Console app
