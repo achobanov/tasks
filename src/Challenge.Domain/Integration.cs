@@ -35,11 +35,11 @@ public class Integration
         }
         catch (DomainException validation)
         {
-            _shell.Print(validation.Message);
+            _shell.PrintValidation(validation.Message);
         }
         catch (Exception)
         {
-            _shell.Print($"Something went wrong. If the issue persists this action is not working as expected. Please contact support");
+            _shell.PrintError($"Something went wrong. If the issue persists this action is not working as expected. Please contact support");
         }
     }
 

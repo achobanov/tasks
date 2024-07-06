@@ -29,6 +29,23 @@ public class ConsoleShell : IShell, IDisposable
         System.Console.WriteLine(message);
     }
 
+    public void PrintValidation(string message)
+    {
+        PrintColor(message, ConsoleColor.DarkYellow);
+    }
+
+    public void PrintError(string message)
+    {
+        PrintColor(message, ConsoleColor.DarkRed);
+    }
+
+    private void PrintColor(string message, ConsoleColor color)
+    {
+        System.Console.ForegroundColor = color;
+        Print(message);
+        System.Console.ForegroundColor = ConsoleColor.White;
+    }
+
     public void Dispose()
     {
         Notifier.Event.Unsubscribe(_subscriptionId);
