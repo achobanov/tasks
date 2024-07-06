@@ -14,7 +14,8 @@ public class Wallet : IFunds, IWallet
     public Wallet()
     {
         _notifier = new Notifier();
-        Operations.Add(nameof(Deposit).ToLower(), new FundsOperation(nameof(Deposit), Deposit));
+        Operations.Add(new FundsOperation(nameof(Deposit), Deposit));
+        Operations.Add(new FundsOperation(nameof(Withdraw), Withdraw));
     }
 
     public void Deposit(decimal amount)
