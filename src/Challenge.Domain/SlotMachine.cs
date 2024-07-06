@@ -60,8 +60,8 @@ public class SlotMachine : IGame
         var treshold = _thresholds.Match(play);
         var result = treshold.GetResult(bet);
         
-        _funds.ApplyDelta(result.Delta);
         _notifier.Notify(result.Message);
+        _funds.ApplyDelta(result.Delta);
     }
 
     public override string ToString()

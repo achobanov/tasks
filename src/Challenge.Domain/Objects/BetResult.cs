@@ -1,4 +1,5 @@
 ﻿using Challenge.Domain.Abstractions;
+using System.Globalization;
 
 namespace Challenge.Domain.Objects;
 
@@ -12,9 +13,10 @@ public readonly record struct BetResult : IBetResult
         {
             throw new ApplicationException("Delta cannot be zero");
         }
+        delta = Math.Round(delta, 2);
         _abs = Math.Abs(delta);
         Delta = delta;
-        Message = string.Format(message, _abs);
+        Message = string.Format(CultureInfo.InvariantCulture, message, _abs);
     }
 
     public decimal Delta { get; }
