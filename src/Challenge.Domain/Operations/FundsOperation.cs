@@ -1,5 +1,6 @@
 ﻿using Challenge.Domain.Abstractions;
 using Challenge.Domain.Core;
+using System.Globalization;
 
 namespace Challenge.Domain.Operations;
 
@@ -21,7 +22,7 @@ public class FundsOperation : IOperation
         {
             throw new DomainException($"Amount cannot be null for '{Name}'. Please provide a valid argument");
         }
-        if (!decimal.TryParse(args, out var decimalValue))
+        if (!decimal.TryParse(args, CultureInfo.InvariantCulture, out var decimalValue))
         {
             throw new DomainException($"Invalid amount '{args}' for '{Name}.'");
         }
