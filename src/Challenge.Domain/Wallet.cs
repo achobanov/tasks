@@ -21,15 +21,19 @@ public class Wallet : IFunds, IWallet
 
     public void Deposit(decimal amount)
     {
+        ValidatePositiveAmount(amount);
+
         _ballance += amount;
         _notifier.Notify($"Successful deposit. Your current ballance is '${_ballance}'");
     }
 
     public void Withdraw(decimal amount)
     {
+        ValidatePositiveAmount(amount);
+
         if (amount > _ballance)
         {
-            throw new DomainException($"Insufficient funds: '${_ballance}'. Cannot withdraw '{amount}'");
+            throw new DomainException($"Insufficient funds: '${_ballance}'. Cannot withdraw '${amount}'");
         }
         _ballance -= amount;
         _notifier.Notify($"Successful withdraw. Your current ballance is '${_ballance}'");
@@ -60,5 +64,13 @@ public class Wallet : IFunds, IWallet
     public bool IsAbleToBet(decimal bet)
     {
         return _ballance > bet;
+    }
+
+    private void ValidatePositiveAmount(decimal amount)
+    {
+        if (amount <= 0)
+        {
+            throw new DomainException($"Invalid amount '{amount}'. Only positive fund amounts are accepted");
+        }
     }
 }
