@@ -46,7 +46,10 @@ public class SlotMachine : IGame
         {
             throw new ApplicationException($"{Name} is not active");
         }
-
+        if (!_funds.IsAbleToBet(_minBet))
+        {
+            throw new DomainException($"We're sorry, but you don't have enough ");
+        }
         if (bet < _minBet || bet > _maxBet)
         {
             throw new DomainException($"Invalid bet '{bet}' (min: '{_minBet}', max: '{_maxBet}')");

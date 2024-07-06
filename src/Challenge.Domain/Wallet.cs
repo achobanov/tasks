@@ -55,8 +55,8 @@ public class Wallet : IFunds, IWallet
         Deposit(amount);
     }
 
-    internal bool CanBet(decimal minimumBet)
+    public bool IsAbleToBet(decimal bet)
     {
-        return _ballance > minimumBet;
+        return _ballance > bet;
     }
 }
