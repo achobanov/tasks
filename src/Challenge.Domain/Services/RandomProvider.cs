@@ -1,8 +1,8 @@
 ﻿using Challenge.Domain.Objects;
 
-namespace Challenge.Domain.Chance;
+namespace Challenge.Domain.Services;
 
- public class RandomProvider : IRandomProvider
+public class RandomProvider : IRandomProvider
 {
     private static readonly Random _random = new();
 

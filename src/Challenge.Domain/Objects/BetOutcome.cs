@@ -1,6 +1,6 @@
 ﻿using Challenge.Domain.Abstractions;
-using Challenge.Domain.Chance;
 using Challenge.Domain.Core;
+using Challenge.Domain.Services;
 
 namespace Challenge.Domain.Objects;
 

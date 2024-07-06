@@ -1,7 +1,6 @@
-﻿using Challenge.Domain.Chance;
-using Challenge.Domain.Objects;
+﻿using Challenge.Domain.Objects;
 
-namespace Challenge.Domain.Core;
+namespace Challenge.Domain.Services;
 
 public class BetOutcomeFactory
 {

@@ -1,7 +1,7 @@
 ﻿using Challenge.Domain.Abstractions;
-using Challenge.Domain.Chance;
 using Challenge.Domain.Objects;
 using Challenge.Domain.Operations;
+using Challenge.Domain.Services;
 
 namespace Challenge.Domain;
 

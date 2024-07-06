@@ -1,7 +1,6 @@
-﻿using Challenge.Domain.Chance;
-using Challenge.Domain.Core;
-using Challenge.Domain;
+﻿using Challenge.Domain;
 using Challenge.Console;
+using Challenge.Domain.Services;
 
 var randomProvider = new RandomProvider();
 var outcomeFactory = new BetOutcomeFactory(randomProvider);
