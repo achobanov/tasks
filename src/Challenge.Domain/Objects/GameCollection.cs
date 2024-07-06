@@ -2,7 +2,7 @@
 using Challenge.Domain.Operations;
 using System.Text;
 
-namespace Challenge.Domain.Core;
+namespace Challenge.Domain.Objects;
 
 public class GameCollection : Dictionary<string, IGame>
 {

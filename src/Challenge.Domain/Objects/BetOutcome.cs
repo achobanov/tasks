@@ -1,8 +1,8 @@
 ﻿using Challenge.Domain.Abstractions;
 using Challenge.Domain.Chance;
-using Challenge.Domain.Objects;
+using Challenge.Domain.Core;
 
-namespace Challenge.Domain.Core;
+namespace Challenge.Domain.Objects;
 
 public abstract class BetOutcome
 {

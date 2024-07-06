@@ -1,4 +1,5 @@
 ﻿using Challenge.Domain.Chance;
+using Challenge.Domain.Objects;
 
 namespace Challenge.Domain.Core;
 

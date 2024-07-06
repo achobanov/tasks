@@ -1,6 +1,6 @@
 ﻿using Challenge.Domain.Abstractions;
 
-namespace Challenge.Domain.Core;
+namespace Challenge.Domain.Objects;
 
 public readonly record struct BetResult : IBetResult
 {

@@ -1,6 +1,4 @@
-﻿using Challenge.Domain.Objects;
-
-namespace Challenge.Domain.Core;
+﻿namespace Challenge.Domain.Objects;
 
 public class TresholdCollection : List<Treshold>
 {
@@ -14,7 +12,7 @@ public class TresholdCollection : List<Treshold>
         {
             _currentThreshold += outcome.Percent;
             var treshold = new Treshold(_currentThreshold, outcome);
-            this.Add(treshold);
+            Add(treshold);
         }
         if (_currentThreshold != new Percent(FULL))
         {

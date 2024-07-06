@@ -1,7 +1,6 @@
 ﻿using Challenge.Domain.Abstractions;
-using Challenge.Domain.Objects;
 
-namespace Challenge.Domain.Core;
+namespace Challenge.Domain.Objects;
 
 public class Treshold : IComparable<Treshold>
 {
