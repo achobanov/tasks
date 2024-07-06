@@ -2,6 +2,7 @@
 using Challenge.Domain.Core;
 using Challenge.Domain.Objects;
 using Challenge.Domain.Operations;
+using Challenge.Domain.Operations.Funds;
 using Challenge.Domain.Services;
 
 namespace Challenge.Domain;
@@ -23,7 +24,7 @@ public class SlotMachine : IGame
         _thresholds = new TresholdCollection(outcomes);
         _notifier = new Notifier();
 
-        Operations.Add("bet", new FundsOperation(nameof(Bet), Bet));
+        Operations.Add(new BetOperation(Bet));
     }
 
     public string Name => nameof(SlotMachine);
@@ -48,7 +49,7 @@ public class SlotMachine : IGame
         }
         if (!_funds.IsAbleToBet(_minBet))
         {
-            throw new DomainException($"We're sorry, but you don't have enough ");
+            throw new DomainException($"We're sorry, but you don't have enough funds. Please deposit more using 'deposit <amount>'");
         }
         if (bet < _minBet || bet > _maxBet)
         {

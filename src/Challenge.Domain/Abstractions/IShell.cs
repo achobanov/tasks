@@ -1,6 +1,6 @@
 ﻿namespace Challenge.Domain.Abstractions;
 
-public interface IShell
+public interface IShell : IOperable
 {
     void Print(string message);
     void PrintValidation(string message);

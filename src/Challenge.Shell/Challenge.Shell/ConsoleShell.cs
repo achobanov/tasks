@@ -1,5 +1,8 @@
-﻿using Challenge.Domain.Abstractions;
+﻿using Challenge.Console.Operations;
+using Challenge.Domain.Abstractions;
 using Challenge.Domain.Core;
+using Challenge.Domain.Objects;
+using System.Text;
 
 namespace Challenge.Console;
 
@@ -7,14 +10,17 @@ public class ConsoleShell : IShell, IDisposable
 {
     private Guid _subscriptionId;
 
+    public OperationsCollection Operations { get; } = [];
+
     public ConsoleShell()
     {
         _subscriptionId = Notifier.Event.Subscribe(Print);
+        Operations.Add(new ExistOperation(Exit));
     }
 
     public ICommand ReadCommand()
     {
-        System.Console.WriteLine("What are you up to?");
+        System.Console.WriteLine("Hi there! How can we help you?");
         var input = System.Console.ReadLine();
         while (input == null || input == string.Empty)
         {
@@ -49,5 +55,10 @@ public class ConsoleShell : IShell, IDisposable
     public void Dispose()
     {
         Notifier.Event.Unsubscribe(_subscriptionId);
+    }
+
+    internal void Exit()
+    {
+        Environment.Exit(0);
     }
 }

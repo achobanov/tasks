@@ -2,21 +2,18 @@
 using Challenge.Domain.Core;
 using System.Globalization;
 
-namespace Challenge.Domain.Operations;
+namespace Challenge.Domain.Operations.Funds;
 
-public class FundsOperation : IOperation
+public class FundsOperation : Operation
 {
     private readonly Action<decimal> _action;
 
-    public FundsOperation(string name, Action<decimal> action)
+    public FundsOperation(string name, Action<decimal> action) : base(name)
     {
-        Name = name.ToLower();
         _action = action;
     }
 
-    public string Name { get; }
-
-    public void Execute(string? args)
+    public override void Execute(string? args)
     {
         if (_action == null)
         {
@@ -27,10 +24,5 @@ public class FundsOperation : IOperation
             throw new DomainException($"Invalid amount '{args}' for '{Name}.'");
         }
         _action(decimalValue);
-    }
-
-    public override string ToString()
-    {
-        return $"{Name} <amount>";
     }
 }

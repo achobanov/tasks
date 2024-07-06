@@ -1,4 +1,5 @@
-﻿using Challenge.Domain.Operations;
+﻿using Challenge.Domain.Objects;
+
 namespace Challenge.Domain.Abstractions;
 
 public interface IOperable

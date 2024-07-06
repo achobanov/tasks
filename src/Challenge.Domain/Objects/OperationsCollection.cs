@@ -1,17 +1,22 @@
 ﻿using Challenge.Domain.Abstractions;
 using Challenge.Domain.Core;
 
-namespace Challenge.Domain.Operations;
+namespace Challenge.Domain.Objects;
 
 public class OperationsCollection : Dictionary<string, IOperation>
 {
     public OperationsCollection()
     {
     }
-    private OperationsCollection(IEnumerable<KeyValuePair<string, IOperation>> operations)
+    internal OperationsCollection(params OperationsCollection[] collections)
     {
+        var operations = collections.SelectMany(x => x);
         foreach (var (key, value) in operations)
         {
+            if (ContainsKey(key))
+            {
+                continue;
+            }
             Add(key, value);
         }
     }
@@ -19,12 +24,6 @@ public class OperationsCollection : Dictionary<string, IOperation>
     public void Add(IOperation operation)
     {
         Add(operation.Name, operation);
-    }
-
-    public OperationsCollection Merge(OperationsCollection collection)
-    {
-        var operations = this.Concat(collection);
-        return new OperationsCollection(operations);
     }
 
     public void Execute(ICommand command)

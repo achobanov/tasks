@@ -1,6 +1,7 @@
 ﻿using Challenge.Domain.Abstractions;
 using Challenge.Domain.Core;
-using Challenge.Domain.Operations;
+using Challenge.Domain.Objects;
+using Challenge.Domain.Operations.Funds;
 
 namespace Challenge.Domain;
 
@@ -14,8 +15,8 @@ public class Wallet : IFunds, IWallet
     public Wallet()
     {
         _notifier = new Notifier();
-        Operations.Add(new FundsOperation(nameof(Deposit), Deposit));
-        Operations.Add(new FundsOperation(nameof(Withdraw), Withdraw));
+        Operations.Add(new DepositOperation(Deposit));
+        Operations.Add(new WithdrawOperation(Withdraw));
     }
 
     public void Deposit(decimal amount)
