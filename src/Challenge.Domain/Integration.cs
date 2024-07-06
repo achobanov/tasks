@@ -10,7 +10,7 @@ public class Integration : IOperable
 {
     private readonly IShell _shell;
     private readonly Wallet _wallet;
-    private GameCollection _games = [];
+    private readonly GameCollection _games = [];
 
 
     public Integration(IShell shell)
@@ -52,22 +52,22 @@ public class Integration : IOperable
         Operations.Execute(command);
     }
 
+    public void Activate(IGame game)
+    {
+        _games.Register(game);
+    }
+
     public void Select(string name)
     {
         var gameOperations = _games.Activate(name, _wallet);
         Operations = new OperationsCollection(Operations, _wallet.Operations, _shell.Operations, gameOperations);
     }
 
-    public void Register(IGame game)
-    {
-        _games.Register(game);
-    }
-
     private void Help()
     {
         var sb = new StringBuilder();
         sb.AppendLine("Command not supported. See list of available commands bellow:");
-        foreach (var (command, operation) in Operations)
+        foreach (var operation in Operations.Values)
         {
             sb.AppendLine($" - {operation}");
         }

@@ -6,8 +6,8 @@ namespace Challenge.Domain.Objects;
 
 public class GameCollection : Dictionary<string, IGame>
 {
+    private readonly Notifier _notifier = new();
     private IGame? _activeGame;
-    private Notifier _notifier = new();
 
     public OperationsCollection Activate(string name, IFunds funds)
     {
