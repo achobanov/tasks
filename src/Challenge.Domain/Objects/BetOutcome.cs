@@ -48,7 +48,7 @@ public class WinOutcome : BetOutcome
 
     public override IBetResult ToResult(decimal bet)
     {
-        var delta = bet * GetModifier() - bet;
+        var delta = bet * GetModifier();
         return new BetResult(delta, "Congratulations! You just won '{0}'");
     }
 
