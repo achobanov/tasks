@@ -4,14 +4,17 @@ namespace Challenge.Domain.Core;
 
 public readonly record struct BetResult : IBetResult
 {
+    private readonly decimal _abs;
+
     public BetResult(decimal delta, string message)
     {
         if (delta == 0)
         {
             throw new ApplicationException("Delta cannot be zero");
         }
+        _abs = Math.Abs(delta);
         Delta = delta;
-        Message =message;
+        Message = string.Format(message, _abs);
     }
 
     public decimal Delta { get; }
@@ -22,6 +25,6 @@ public readonly record struct BetResult : IBetResult
         var type = Delta > 0
             ? "Won"
             : "Lost";
-        return $"{type} {Math.Abs(Delta)}";
+        return $"{type} {_abs}";
     }
 }
