@@ -66,7 +66,7 @@ public class Integration : IOperable
     private void Help()
     {
         var sb = new StringBuilder();
-        sb.AppendLine("Command not supported. See list of available commands bellow:");
+        sb.AppendLine("See list of available commands bellow:");
         foreach (var operation in Operations.Values)
         {
             sb.AppendLine($" - {operation}");

@@ -20,7 +20,7 @@ public class ConsoleShell : IShell, IDisposable
 
     public ICommand ReadCommand()
     {
-        System.Console.WriteLine("Hi there! How can we help you?");
+        System.Console.WriteLine("Type a command ('help' lists all options)");
         var input = System.Console.ReadLine();
         while (input == null || input == string.Empty)
         {

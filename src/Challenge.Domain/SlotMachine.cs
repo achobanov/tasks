@@ -32,7 +32,7 @@ public class SlotMachine : IGame
     public void Activate(IFunds funds)
     {
         _funds = funds;
-        _notifier.Notify($"Now playing '{Name}'");
+        _notifier.Notify($"Hello! You are now playing '{Name}'. Have fun and good luck!");
     }
 
     public void Deactivate()

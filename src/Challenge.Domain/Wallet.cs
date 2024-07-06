@@ -32,7 +32,7 @@ public class Wallet : IFunds, IWallet
             throw new DomainException($"Insufficient funds: '${_ballance}'. Cannot withdraw '{amount}'");
         }
         _ballance -= amount;
-        _notifier.Notify($"Successful withdraw. Your current ballance is '{_ballance}$'");
+        _notifier.Notify($"Successful withdraw. Your current ballance is '${_ballance}'");
     }
 
     public void ApplyDelta(decimal delta)
