@@ -1,4 +1,5 @@
 ﻿using Challenge.Domain.Abstractions;
+using Challenge.Domain.Core;
 using Challenge.Domain.Objects;
 using Challenge.Domain.Operations;
 using System.Text;
@@ -22,11 +23,27 @@ public class Integration
     {
         while (true)
         {
-            ExecuteCommand();
+            SafeExecuteCommand();
         }
     }
 
-    public void ExecuteCommand()
+    private void SafeExecuteCommand()
+    {
+        try
+        {
+            ExecuteCommand();
+        }
+        catch (DomainException validation)
+        {
+            _shell.Print(validation.Message);
+        }
+        catch (Exception)
+        {
+            _shell.Print($"Something went wrong. If the issue persists this action is not working as expected. Please contact support");
+        }
+    }
+
+    private void ExecuteCommand()
     {
         var command = _shell.ReadCommand();
         _operations.Execute(command);
