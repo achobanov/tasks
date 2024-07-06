@@ -1,4 +1,4 @@
-﻿namespace Challenge.Shell.Abstractions;
+﻿namespace Challenge.Domain.Abstractions;
 
 public interface IShell
 {

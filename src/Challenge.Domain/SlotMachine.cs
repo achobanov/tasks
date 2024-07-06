@@ -31,6 +31,7 @@ public class SlotMachine : IGame
     public void Activate(IFunds funds)
     {
         _funds = funds;
+        _notifier.Notify($"Now playing '{Name}'");
     }
 
     public void Deactivate()

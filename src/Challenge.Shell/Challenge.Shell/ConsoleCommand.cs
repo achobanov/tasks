@@ -1,6 +1,6 @@
-﻿using Challenge.Shell.Abstractions;
+﻿using Challenge.Domain.Abstractions;
 
-namespace Challenge.Shell.ConsoleProvider;
+namespace Challenge.Console;
 
 public class ConsoleCommand : ICommand
 {

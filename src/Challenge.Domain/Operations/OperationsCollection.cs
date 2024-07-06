@@ -1,4 +1,5 @@
-﻿using Challenge.Domain.Operations.Abstractions;
+﻿using Challenge.Domain.Abstractions;
+using Challenge.Domain.Core;
 
 namespace Challenge.Domain.Operations;
 
@@ -24,5 +25,14 @@ public class OperationsCollection : Dictionary<string, IOperation>
     {
         var operations = this.Concat(collection);
         return new OperationsCollection(operations);
+    }
+
+    public void Execute(ICommand command)
+    {
+        if (!ContainsKey(command.Name))
+        {
+            throw new DomainException($"Operation not found for command '{command}'");
+        }
+        this[command.Name].Execute(command.Arguments);
     }
 }

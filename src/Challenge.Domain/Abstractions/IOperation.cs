@@ -1,4 +1,4 @@
-﻿namespace Challenge.Domain.Operations.Abstractions;
+﻿namespace Challenge.Domain.Abstractions;
 
 public interface IOperation
 {
