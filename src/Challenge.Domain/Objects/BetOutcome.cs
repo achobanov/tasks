@@ -24,7 +24,7 @@ public class LossOutcome : BetOutcome
 
     public override IBetResult ToResult(decimal bet)
     {
-        return new BetResult(-bet, "Sorry! You just lost '{1}' Better luck next time!");
+        return new BetResult(-bet, "Sorry! You just lost '{0}' Better luck next time!");
     }
 
     public override string ToString()
