@@ -22,17 +22,17 @@ public class Wallet : IFunds, IWallet
     public void Deposit(decimal amount)
     {
         _ballance += amount;
-        _notifier.Notify($"Successful deposit. Your current ballance is '{_ballance}'");
+        _notifier.Notify($"Successful deposit. Your current ballance is '${_ballance}'");
     }
 
     public void Withdraw(decimal amount)
     {
         if (amount > _ballance)
         {
-            throw new DomainException($"Insufficient funds: '{_ballance}'. Cannot withdraw '{amount}'");
+            throw new DomainException($"Insufficient funds: '${_ballance}'. Cannot withdraw '{amount}'");
         }
         _ballance -= amount;
-        _notifier.Notify($"Successful withdraw. Your current ballance is '{_ballance}'");
+        _notifier.Notify($"Successful withdraw. Your current ballance is '{_ballance}$'");
     }
 
     public void ApplyDelta(decimal delta)
@@ -42,13 +42,13 @@ public class Wallet : IFunds, IWallet
         {
             var minimumAmount = Math.Abs(_ballance) + 1;
             _notifier.Notify(
-                $"Unfortunatelly your ballance is now negative '{_ballance}'. " +
+                $"Unfortunatelly your ballance is now negative '${_ballance}'. " +
                 $"We're sure you'll get a better luck next time, however we'll have to ask you to deposit funds" +
-                $"Untill you are on a positibe ballance. Minimum amount '{minimumAmount}'");
+                $"Untill you are on a positibe ballance. Minimum amount '${minimumAmount}'");
         }
         else
         {
-            _notifier.Notify($"Current ballance is '{_ballance}'");
+            _notifier.Notify($"Current ballance is '${_ballance}'");
         }
     }
 
