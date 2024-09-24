@@ -7,6 +7,12 @@ public class Messages
     IMessageSender _sender;
     ISerializer _serializer;
 
+    public Messages(IMessageSender sender, ISerializer serializer)
+    {
+        _sender = sender;
+        _serializer = serializer;
+    }
+
     public void Send(string occasion)
     {
         // Implementation
